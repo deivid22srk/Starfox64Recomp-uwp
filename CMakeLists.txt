@@ -19,6 +19,12 @@ endif()
 # Opt out of constexpr mutex constructor on windows to prevent vcredist issues
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR")
+
+    option(UWP_BUILD "Only build static libs, launch via external cmake project." OFF)
+
+    if (UWP_BUILD)
+        add_compile_definitions(_UWP)
+    endif()
 endif()
 
 if (APPLE)
@@ -145,7 +151,11 @@ add_custom_command(OUTPUT
 )
 
 # Main executable
-add_executable(Starfox64Recompiled)
+if(NOT UWP_BUILD)
+    add_executable(Starfox64Recompiled)
+else()
+    add_library(Starfox64Recompiled STATIC)
+endif()
 
 set (SOURCES
     ${CMAKE_SOURCE_DIR}/src/main/main.cpp
@@ -283,6 +293,7 @@ if (WIN32)
             "${CMAKE_SOURCE_DIR}/lib/rt64/src/contrib/dxc/bin/x64/dxcompiler.dll"
             $<TARGET_FILE_DIR:Starfox64Recompiled>)
 
+    if(NOT UWP_BUILD)
     set_target_properties(
         Starfox64Recompiled
         PROPERTIES
@@ -294,6 +305,7 @@ if (WIN32)
 
     target_sources(Starfox64Recompiled PRIVATE ${CMAKE_SOURCE_DIR}/icons/app.rc)
     target_link_libraries(Starfox64Recompiled PRIVATE SDL2 Winmm.lib)
+    endif()
 endif()
 
 if (APPLE)
