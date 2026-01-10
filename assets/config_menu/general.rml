@@ -168,15 +168,15 @@
                     <div class="config-option" data-event-mouseover="set_cur_config_index(9)">
                         <label class="config-option__title">Post Processing</label>
                         <div class="config-option__list">
-                            <div class="config-option__details">{{pp_info}}</div>
                             <button
                                 class="button button--warning"
                                 id="shader_button"
                                 style="nav-down:#rumble_strength_input"
                                 data-event-click="pick_a_shader"
                             >
-                                <div class="button__label">Update</div>
+                                <div class="button__label">Load</div>
                             </button>
+                            <div class="config-option__details">{{pp_info}}</div>
 
                         </div>
                     </div>
