@@ -31,6 +31,9 @@ set(BinDeps
 	${CMAKE_CURRENT_BINARY_DIR}/_deps/uwplibs-src/x64/bin/libuwp.dll
 	${CMAKE_CURRENT_BINARY_DIR}/_deps/uwplibs-src/x64/bin/SDL2.dll
 
+	# todo: update uwplibs
+	${CMAKE_SOURCE_DIR}/librashader.dll
+
 	Package.appxmanifest
 )
 source_group("BinDeps" FILES ${BinDeps})
@@ -122,4 +125,3 @@ set(BinLibs
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${BinLibs})
-set_target_properties(${PROJECT_NAME} PROPERTIES VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION 10.0.19041.0)
