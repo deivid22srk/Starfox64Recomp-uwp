@@ -19,6 +19,21 @@ Rml::DataModelHandle controls_model_handle;
 Rml::DataModelHandle graphics_model_handle;
 Rml::DataModelHandle sound_options_model_handle;
 
+std::filesystem::path selectedShaderPath;
+
+std::filesystem::path zelda64::get_shader_path() {
+    return selectedShaderPath;
+}
+
+void select_shader() {
+    zelda64::open_file_dialog([](bool success, const std::filesystem::path& path) {
+        if (success) {
+            selectedShaderPath = path;
+            general_model_handle.DirtyVariable("pp_info");
+        }
+    });
+}
+
 // True if controller config menu is open, false if keyboard config menu is open, undefined otherwise
 bool configuring_controller = false;
 
@@ -948,6 +963,16 @@ public:
         bind_option(constructor, "radio_comm_box_mode", &control_options_context.radio_comm_box_mode);
         bind_option(constructor, "invert_y_axis_mode", &control_options_context.invert_y_axis_mode);
         bind_option(constructor, "analog_camera_invert_mode", &control_options_context.analog_camera_invert_mode);
+
+        constructor.BindFunc("pp_info",
+            [](Rml::Variant& out) {
+                out = selectedShaderPath.string();
+            });
+
+        constructor.BindEventCallback("pick_a_shader",
+            [](Rml::DataModelHandle model_handle, Rml::Event& event, const Rml::VariantList& inputs) {
+                select_shader();
+            });
 
         general_model_handle = constructor.GetModelHandle();
     }

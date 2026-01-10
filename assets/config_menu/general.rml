@@ -146,7 +146,7 @@
                                 data-checked="radio_comm_box_mode"
                                 value="Expand"
                                 id="radio_comm_box_mode_expand"
-                                style="nav-up: #invert_y_axis_mode_on;"
+                                style="nav-up: #invert_y_axis_mode_on; nav-down: #shader_button;"
                             />
                             <label class="config-option__tab-label" for="radio_comm_box_mode_expand">Expand</label>
 
@@ -158,9 +158,26 @@
                                 data-checked="radio_comm_box_mode"
                                 value="Original"
                                 id="radio_comm_box_mode_center"
-                                style="nav-up: #invert_y_axis_mode_off;"
+                                style="nav-up: #invert_y_axis_mode_off; nav-down: #shader_button;"
                             />
                             <label class="config-option__tab-label" for="radio_comm_box_mode_center">Original</label>
+                        </div>
+                    </div>
+
+                    <!-- Post Processing FX-->
+                    <div class="config-option" data-event-mouseover="set_cur_config_index(9)">
+                        <label class="config-option__title">Post Processing</label>
+                        <div class="config-option__list">
+                            <div class="config-option__details">{{pp_info}}</div>
+                            <button
+                                class="button button--warning"
+                                id="shader_button"
+                                style="nav-down:#rumble_strength_input"
+                                data-event-click="pick_a_shader"
+                            >
+                                <div class="button__label">Update</div>
+                            </button>
+
                         </div>
                     </div>
 
@@ -206,7 +223,7 @@
                         <br/>
                     </p>
                     <p data-if="cur_config_index == 9">
-                        Inverts the camera controls for the analog camera if it's enabled. <b>None</b> is the default.
+                        Apply a post-processing effect from the libretro slang library.
                     </p>
                 </div>
             </div>
