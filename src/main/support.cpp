@@ -4,7 +4,8 @@
 #include "RmlUi/Core.h"
 
 #ifdef _UWP
-extern "C" __declspec(dllimport) void uwp_PickAFile(char* path);
+#include <functional>
+extern "C" __declspec(dllimport) void uwp_PickAFile(std::function < void(const char* path)>);
 #endif
 
 namespace zelda64 {
@@ -21,18 +22,17 @@ namespace zelda64 {
             path = std::filesystem::path{native_path};
             NFD_FreePathN(native_path);
         }
+        callback(success, path);
 #else
-        char buffer[256];
-        std::filesystem::path path;
-        uwp_PickAFile(buffer);
-        bool success = strlen(buffer) > 0;
-
-        if (success) {
-            path = std::filesystem::path(buffer);
-        }
+        uwp_PickAFile([callback](const char* path) {
+            std::filesystem::path filepath;
+            if (path) {
+                filepath = std::filesystem::path(path);
+            }
+            callback(path, filepath);
+        });
 #endif
 
-        callback(success, path);
     }
 
     void perform_file_dialog_operation_multiple(const std::function<void(bool, const std::list<std::filesystem::path>&)>& callback) {
