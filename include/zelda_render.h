@@ -10,6 +10,7 @@
 
 namespace RT64 {
     struct Application;
+    struct LibraRuntimeParam;
 }
 
 namespace zelda64 {
@@ -46,6 +47,7 @@ namespace zelda64 {
         bool RT64SamplePositionsSupported();
         bool RT64HighPrecisionFBEnabled();
 
+        std::vector<RT64::LibraRuntimeParam> get_libra_runtime_params();
         void trigger_texture_pack_update();
         void enable_texture_pack(const recomp::mods::ModContext& context, const recomp::mods::ModHandle& mod);
         void disable_texture_pack(const recomp::mods::ModHandle& mod);
