@@ -1,0 +1,33 @@
+<template name="config-menu__fx">
+    <head>
+    </head>
+    <body>
+        <form class="config__form">
+            <div class="config__hz-wrapper">
+                <div class="config__wrapper" data-event-mouseout="set_cur_config_index(-1)">
+                <ul>
+                <li data-for="p,i : params">
+                    <div class="config-option" data-event-mouseover="set_cur_config_index(i + 1)">
+                        <label class="config-option__title">{{ p.name }} </label>
+                        <div class="config-option__range-wrapper config-option__list">
+                            <label class="config-option__range-label">{{ p.current_value }}%</label>
+                            <input
+                                class="nav-vert"
+                                data-event-blur="set_cur_config_index(-1)"
+                                data-event-focus="set_cur_config_index(i + 1)"
+                                type="range"
+                                data-attr-min="p.min"
+                                data-attr-max="p.max"
+                                data-attr-step="p.step"
+                                style="flex: 1; margin: 0dp;"
+                                data-value="p.current_value"
+                            />
+                        </div>
+                    </div>
+                </li>
+                </ul>
+                </div>
+            </div>
+        </form>
+    </body>
+</template>
