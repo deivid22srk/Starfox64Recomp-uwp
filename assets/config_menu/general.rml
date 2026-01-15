@@ -171,6 +171,7 @@
                             <button
                                 class="button button--warning"
                                 id="shader_button"
+                                data-event-focus="set_cur_config_index(9)"
                                 style="nav-down:#rumble_strength_input"
                                 data-event-click="pick_a_shader"
                             >
@@ -224,6 +225,8 @@
                     </p>
                     <p data-if="cur_config_index == 9">
                         Apply a post-processing effect from the libretro slang library.
+			<br/><br/>
+			<b>EXPERIMENTAL: Shaders may introduce instability, preset configuration is not currently persisted.</b>
                     </p>
                 </div>
             </div>
