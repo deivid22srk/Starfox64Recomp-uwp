@@ -530,7 +530,3 @@ bool zelda64::renderer::is_texture_pack_enable_config_option(const recomp::mods:
     }
     return false;
 }
-
-std::vector<RT64::LibraRuntimeParam> zelda64::renderer::get_libra_runtime_params() {
-
-}
