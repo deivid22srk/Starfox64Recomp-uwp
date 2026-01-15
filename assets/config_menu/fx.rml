@@ -8,19 +8,20 @@
                 <ul>
                 <li data-for="p,i : params">
                     <div class="config-option" data-event-mouseover="set_cur_config_index(i + 1)">
-                        <label class="config-option__title">{{ p.name }} </label>
+                        <label class="config-option__title">{{ p.description }} </label>
                         <div class="config-option__range-wrapper config-option__list">
-                            <label class="config-option__range-label">{{ p.current_value }}%</label>
+                            <label class="config-option__range-label">{{ p.current_value }}% min({{p.min}}) max({{p.max}}) def({{p.initial}})</label>
                             <input
+                                type="range"
                                 class="nav-vert"
+                                data-value="p.current_value"
                                 data-event-blur="set_cur_config_index(-1)"
                                 data-event-focus="set_cur_config_index(i + 1)"
-                                type="range"
-                                data-attr-min="p.min"
                                 data-attr-max="p.max"
+                                data-attr-min="p.min"
                                 data-attr-step="p.step"
                                 style="flex: 1; margin: 0dp;"
-                                data-value="p.current_value"
+                                data-event-change="update_param(i)"
                             />
                         </div>
                     </div>

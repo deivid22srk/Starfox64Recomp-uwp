@@ -13,6 +13,7 @@ namespace RT64 {
     struct Application;
 
     // hack: hook to receive latest shader params to show in menu
+    LibraRuntimeState& ui_get_shader_state();
     void ui_set_shader_params(std::vector<RT64::LibraRuntimeParam> params);
 }
 

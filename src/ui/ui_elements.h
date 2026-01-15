@@ -4,7 +4,6 @@
 #include "recomp_ui.h"
 #include "RmlUi/Core/Element.h"
 
-#include "ui_fx_menu.h"
 #include "ui_mod_menu.h"
 #include "ui_config_sub_menu.h"
 

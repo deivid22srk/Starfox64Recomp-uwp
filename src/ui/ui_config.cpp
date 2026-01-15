@@ -26,9 +26,16 @@ std::filesystem::path zelda64::get_shader_path() {
     return selectedShaderPath;
 }
 
-std::vector<RT64::LibraRuntimeParam> currentRuntimeParams;
+bool runtimeParamsDirty = false;
+RT64::LibraRuntimeState libraState;
+
+RT64::LibraRuntimeState& RT64::ui_get_shader_state() {
+    return libraState;
+}
+
 void RT64::ui_set_shader_params(std::vector<RT64::LibraRuntimeParam> params) {
-    currentRuntimeParams = params;
+    libraState = { params, false };
+
     fx_options_model_handle.DirtyVariable("params");
 }
 
@@ -1051,7 +1058,20 @@ public:
         }
 
         constructor.RegisterArray<std::vector<RT64::LibraRuntimeParam>>();
-        constructor.Bind("params", &currentRuntimeParams);
+        constructor.Bind("params", &libraState.params);
+
+        constructor.BindEventCallback("update_param",
+            [](Rml::DataModelHandle model_handle, Rml::Event& event, const Rml::VariantList& inputs) {
+                // todo: cleanup comms between ui and rt64, how best to notify?
+                //       we probably dont want to hijack the gfx thread directly...
+                const std::scoped_lock lock(RT64::libraMutex);
+                int updated_param_index = inputs.at(0).Get<size_t>();
+                auto& parameter = libraState.params[updated_param_index];
+                if (abs(parameter.initial - parameter.current_value) > 0.001) {
+                    parameter.dirty = true;
+                    libraState.dirty = true;
+                }
+            });
 
         fx_options_model_handle = constructor.GetModelHandle();
     }
