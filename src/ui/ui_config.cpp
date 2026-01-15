@@ -17,12 +17,19 @@ Rml::DataModelHandle nav_help_model_handle;
 Rml::DataModelHandle general_model_handle;
 Rml::DataModelHandle controls_model_handle;
 Rml::DataModelHandle graphics_model_handle;
+Rml::DataModelHandle fx_options_model_handle;
 Rml::DataModelHandle sound_options_model_handle;
 
 std::filesystem::path selectedShaderPath;
 
 std::filesystem::path zelda64::get_shader_path() {
     return selectedShaderPath;
+}
+
+std::vector<RT64::LibraRuntimeParam> currentRuntimeParams;
+void RT64::ui_set_shader_params(std::vector<RT64::LibraRuntimeParam> params) {
+    currentRuntimeParams = params;
+    fx_options_model_handle.DirtyVariable("params");
 }
 
 void select_shader() {
@@ -1025,6 +1032,30 @@ public:
         debug_context.model_handle = constructor.GetModelHandle();
     }
 
+    void make_fx_bindings(Rml::Context* context) {
+        Rml::DataModelConstructor constructor = context->CreateDataModel("fx_options_model");
+        if (!constructor) {
+            throw std::runtime_error("Failed to make RmlUi data model for the FX adjustments menu");
+        }
+
+        bind_config_list_events(constructor);
+
+        if (auto fx_param_handle = constructor.RegisterStruct<RT64::LibraRuntimeParam>()) {
+            fx_param_handle.RegisterMember("name", &RT64::LibraRuntimeParam::name);
+            fx_param_handle.RegisterMember("description", &RT64::LibraRuntimeParam::description);
+            fx_param_handle.RegisterMember("current_value", &RT64::LibraRuntimeParam::current_value);
+            fx_param_handle.RegisterMember("initial", &RT64::LibraRuntimeParam::initial);
+            fx_param_handle.RegisterMember("min", &RT64::LibraRuntimeParam::min);
+            fx_param_handle.RegisterMember("max", &RT64::LibraRuntimeParam::max);
+            fx_param_handle.RegisterMember("step", &RT64::LibraRuntimeParam::step);
+        }
+
+        constructor.RegisterArray<std::vector<RT64::LibraRuntimeParam>>();
+        constructor.Bind("params", &currentRuntimeParams);
+
+        fx_options_model_handle = constructor.GetModelHandle();
+    }
+
     void make_bindings(Rml::Context* context) override {
         // initially set cont state for ui help
         //recomp::config_menu_set_cont_or_kb(recompui::get_cont_active());
@@ -1034,6 +1065,7 @@ public:
         make_graphics_bindings(context);
         make_sound_options_bindings(context);
         make_debug_bindings(context);
+        make_fx_bindings(context);
     }
 };
 
