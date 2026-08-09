@@ -123,6 +123,11 @@ bool loadCustomDriver() {
     std::string hookDir = getNativeLibraryDir();
     std::string tmpDir = std::string(SDL_AndroidGetInternalStoragePath()) + "/tmp_lib";
 
+    // adrenotools concatenates dir+name without separator, ensure trailing slash
+    if (!driverDir.empty() && driverDir.back() != '/') {
+        driverDir += '/';
+    }
+
     LOGI("Loading custom driver: dir=%s name=%s hookDir=%s tmpDir=%s",
          driverDir.c_str(), driverName.c_str(), hookDir.c_str(), tmpDir.c_str());
 
