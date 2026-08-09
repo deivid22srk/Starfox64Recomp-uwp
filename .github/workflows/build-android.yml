@@ -29,6 +29,8 @@ jobs:
             lib/freetype-windows-binaries
           git submodule update --init --recursive \
             lib/rt64
+          git submodule update --init --recursive \
+            thirdparty/libadrenotools
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
