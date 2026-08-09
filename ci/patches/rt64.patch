@@ -215,13 +215,6 @@ index b121bd7..00def18 100644
          uint8_t *data() const;
          size_t size() const;
      };
-diff --git a/src/contrib/plume b/src/contrib/plume
-index c89d223..6d92965 160000
---- a/src/contrib/plume
-+++ b/src/contrib/plume
-@@ -1 +1 @@
--Subproject commit c89d2231ef37cf2d6a34e4e3a7a7f480e135d797
-+Subproject commit 6d92965e8a7ac33b15666213cc66bf8234246baa
 diff --git a/src/gui/rt64_file_dialog.cpp b/src/gui/rt64_file_dialog.cpp
 index 72faede..e67470f 100644
 --- a/src/gui/rt64_file_dialog.cpp
@@ -304,6 +297,25 @@ index 72faede..e67470f 100644
      }
  };
 \ No newline at end of file
+diff --git a/src/hle/rt64_application.cpp b/src/hle/rt64_application.cpp
+index ff103d9..a8cf709 100644
+--- a/src/hle/rt64_application.cpp
++++ b/src/hle/rt64_application.cpp
+@@ -275,7 +275,13 @@ namespace RT64 {
+         // where the wait() will take far more time than expected and cause stuttering. While this seems to work fine everywhere else,
+         // we stick to the pre-plume approach to be safe.
+         const uint32_t maxFrameLatency = (chosenGraphicsAPI == UserConfiguration::GraphicsAPI::Vulkan) ? 2 : 1;
+-        swapChain = presentGraphicsWorker->commandQueue->createSwapChain(appWindow->windowHandle, bufferCount, RenderFormat::B8G8R8A8_UNORM, maxFrameLatency);
++#if defined(__ANDROID__)
++        // Android swapchains are backed by AHardwareBuffer, which does not support the B8G8R8A8 format.
++        const RenderFormat swapChainFormat = RenderFormat::R8G8B8A8_UNORM;
++#else
++        const RenderFormat swapChainFormat = RenderFormat::B8G8R8A8_UNORM;
++#endif
++        swapChain = presentGraphicsWorker->commandQueue->createSwapChain(appWindow->windowHandle, bufferCount, swapChainFormat, maxFrameLatency);
+ 
+         // Before configuring multisampling, make sure the device actually supports it for the formats we'll use. If it doesn't, turn off antialiasing in the configuration.
+         const RenderSampleCounts colorSampleCounts = device->getSampleCountsSupported(RenderTarget::colorBufferFormat(usesHDR));
 diff --git a/src/hle/rt64_application_window.cpp b/src/hle/rt64_application_window.cpp
 index 1597bab..50aeb03 100755
 --- a/src/hle/rt64_application_window.cpp
