@@ -89,6 +89,8 @@ Java_com_sf64recomp_app_MainActivity_nativeOnDriverSelected(JNIEnv* env, jclass,
     driver_pick_cv.notify_all();
 }
 
+namespace zelda64 {
+
 void android_open_driver_picker() {
     {
         std::lock_guard lock(driver_pick_mutex);
@@ -112,6 +114,9 @@ bool android_driver_pick_result(std::string& out_path) {
     out_path = driver_pick_path;
     return driver_pick_success;
 }
+
+}
+
 #endif
 
 namespace zelda64 {
