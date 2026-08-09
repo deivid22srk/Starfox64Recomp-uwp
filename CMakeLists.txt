@@ -45,7 +45,7 @@ if (ANDROID)
     include(FetchContent)
     FetchContent_Declare(
         freetype
-        URL https://download.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.xz
+        SOURCE_DIR ${CMAKE_SOURCE_DIR}/lib/freetype
     )
     set(FT_DISABLE_BZIP2 TRUE CACHE BOOL "" FORCE)
     set(FT_DISABLE_HARFBUZZ TRUE CACHE BOOL "" FORCE)
