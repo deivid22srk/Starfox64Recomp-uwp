@@ -33,7 +33,7 @@ index 8be5b05..8b9b91a 100644
      struct RenderWindow {
          Display* display;
 diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
-index 51f96c4..8c565d3 100644
+index 51f96c4..ab32688 100644
 --- a/plume_vulkan.cpp
 +++ b/plume_vulkan.cpp
 @@ -24,6 +24,13 @@
@@ -313,17 +313,19 @@ index 51f96c4..8c565d3 100644
          capabilities.maxTextureSize = physicalDeviceProperties.limits.maxImageDimension2D;
          capabilities.preferHDR = memoryHeapSize > (512 * 1024 * 1024);
          capabilities.dynamicDepthBias = true;
-@@ -4446,11 +4647,25 @@ namespace plume {
+@@ -4446,11 +4647,27 @@ namespace plume {
  #else
      VulkanInterface::VulkanInterface() {
  #endif
 +#ifdef __ANDROID__
 +        extern PFN_vkGetInstanceProcAddr android_vulkanGetInstanceProcAddr;
++        VkResult res;
 +        if (android_vulkanGetInstanceProcAddr != nullptr) {
 +            volkInitializeCustom(android_vulkanGetInstanceProcAddr);
++            res = VK_SUCCESS;
 +        }
 +        else {
-+            VkResult res = volkInitialize();
++            res = volkInitialize();
 +            if (res != VK_SUCCESS) {
 +                fprintf(stderr, "volkInitialize failed with error code 0x%X.\n", res);
 +                return;
