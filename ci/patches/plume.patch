@@ -33,7 +33,7 @@ index 8be5b05..8b9b91a 100644
      struct RenderWindow {
          Display* display;
 diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
-index 51f96c4..1bdf771 100644
+index 51f96c4..ab32688 100644
 --- a/plume_vulkan.cpp
 +++ b/plume_vulkan.cpp
 @@ -24,6 +24,13 @@
@@ -320,8 +320,8 @@ index 51f96c4..1bdf771 100644
 +#ifdef __ANDROID__
 +        extern PFN_vkGetInstanceProcAddr android_vulkanGetInstanceProcAddr;
 +        VkResult res;
-+        if (::android_vulkanGetInstanceProcAddr != nullptr) {
-+            volkInitializeCustom(::android_vulkanGetInstanceProcAddr);
++        if (android_vulkanGetInstanceProcAddr != nullptr) {
++            volkInitializeCustom(android_vulkanGetInstanceProcAddr);
 +            res = VK_SUCCESS;
 +        }
 +        else {

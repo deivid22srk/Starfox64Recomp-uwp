@@ -18,7 +18,9 @@
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
-PFN_vkGetInstanceProcAddr android_vulkanGetInstanceProcAddr = nullptr;
+namespace plume {
+    PFN_vkGetInstanceProcAddr android_vulkanGetInstanceProcAddr = nullptr;
+}
 
 namespace TurnipLoader {
 
@@ -149,7 +151,7 @@ bool loadCustomDriver() {
         return false;
     }
 
-    android_vulkanGetInstanceProcAddr = getProcAddr;
+    plume::android_vulkanGetInstanceProcAddr = getProcAddr;
     g_info.libvulkanHandle = handle;
     g_info.adrenotoolsHandle = handle;
     g_info.loaded = true;
