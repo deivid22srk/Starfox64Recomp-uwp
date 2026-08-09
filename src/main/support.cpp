@@ -7,10 +7,77 @@
 extern "C" __declspec(dllimport) void uwp_PickAFile(char* path);
 #endif
 
+#ifdef __ANDROID__
+#include <jni.h>
+#include <SDL_system.h>
+#include <mutex>
+#include <condition_variable>
+
+namespace {
+std::mutex rom_pick_mutex;
+std::condition_variable rom_pick_cv;
+bool rom_pick_done = false;
+bool rom_pick_success = false;
+std::string rom_pick_path;
+}
+
+// Called from Java (MainActivity.onActivityResult) on the UI thread after the
+// user picks a ROM file. Wakes up the thread waiting in perform_file_dialog_operation.
+extern "C" JNIEXPORT void JNICALL
+Java_com_sf64recomp_app_MainActivity_nativeOnRomSelected(JNIEnv* env, jclass, jstring jpath) {
+    {
+        std::lock_guard lock(rom_pick_mutex);
+        if (jpath != nullptr) {
+            const char* path_c = env->GetStringUTFChars(jpath, nullptr);
+            rom_pick_success = path_c != nullptr && path_c[0] != '\0';
+            rom_pick_path = path_c != nullptr ? path_c : "";
+            if (path_c != nullptr) {
+                env->ReleaseStringUTFChars(jpath, path_c);
+            }
+        } else {
+            rom_pick_success = false;
+            rom_pick_path = "";
+        }
+        rom_pick_done = true;
+    }
+    rom_pick_cv.notify_all();
+}
+
+// Launches the system file picker through MainActivity and blocks until a file
+// is chosen or the dialog is cancelled.
+void android_open_rom_picker() {
+    {
+        std::lock_guard lock(rom_pick_mutex);
+        rom_pick_done = false;
+    }
+
+    JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+    jobject activity = SDL_AndroidGetActivity();
+    jclass cls = env->GetObjectClass(activity);
+    jmethodID openRomPicker = env->GetStaticMethodID(cls, "openRomPicker", "()V");
+    if (openRomPicker != nullptr) {
+        env->CallStaticVoidMethod(cls, openRomPicker);
+    }
+
+    std::unique_lock lock(rom_pick_mutex);
+    rom_pick_cv.wait(lock, [] { return rom_pick_done; });
+}
+#endif
+
 namespace zelda64 {
     // MARK: - Internal Helpers
     void perform_file_dialog_operation(const std::function<void(bool, const std::filesystem::path&)>& callback) {
-#ifndef _UWP
+#ifdef __ANDROID__
+        android_open_rom_picker();
+
+        std::unique_lock lock(rom_pick_mutex);
+        bool success = rom_pick_success;
+        std::filesystem::path path = success ? std::filesystem::path(rom_pick_path) : std::filesystem::path{};
+        lock.unlock();
+
+        callback(success, path);
+        return;
+#elif !defined(_UWP)
         nfdnchar_t* native_path = nullptr;
         nfdresult_t result = NFD_OpenDialogN(&native_path, nullptr, 0, nullptr);
 

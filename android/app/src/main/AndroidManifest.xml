@@ -18,7 +18,7 @@
         android:hardwareAccelerated="true">
 
         <activity
-            android:name="org.libsdl.app.SDLActivity"
+            android:name="com.sf64recomp.app.MainActivity"
             android:label="@string/app_name"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|navigation"
             android:screenOrientation="sensorLandscape"
