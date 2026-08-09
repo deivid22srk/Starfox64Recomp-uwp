@@ -33,15 +33,16 @@ index 8be5b05..8b9b91a 100644
      struct RenderWindow {
          Display* display;
 diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
-index 51f96c4..ab32688 100644
+index 51f96c4..be7cbb3 100644
 --- a/plume_vulkan.cpp
 +++ b/plume_vulkan.cpp
-@@ -24,6 +24,13 @@
+@@ -24,6 +24,14 @@
  #   define VULKAN_OBJECT_NAMES_ENABLED
  #endif
  
 +#if defined(__ANDROID__)
 +#   include <android/log.h>
++#   include <SDL_syswm.h>
 +#   define PLUME_ANDROID_LOG(level, fmt, ...) __android_log_print((level), "Plume", fmt, ##__VA_ARGS__)
 +#else
 +#   define PLUME_ANDROID_LOG(level, fmt, ...) do {} while (0)
@@ -50,7 +51,7 @@ index 51f96c4..ab32688 100644
  // TODO:
  // - Fix resource pools.
  
-@@ -1390,6 +1397,7 @@ namespace plume {
+@@ -1390,6 +1398,7 @@ namespace plume {
          VkResult res = vkCreateComputePipelines(device->vk, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vk);
          if (res != VK_SUCCESS) {
              fprintf(stderr, "vkCreateComputePipelines failed with error code 0x%X.\n", res);
@@ -58,7 +59,7 @@ index 51f96c4..ab32688 100644
              return;
          }
      }
-@@ -1649,6 +1657,11 @@ namespace plume {
+@@ -1649,6 +1658,11 @@ namespace plume {
          VkResult res = vkCreateGraphicsPipelines(device->vk, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &vk);
          if (res != VK_SUCCESS) {
              fprintf(stderr, "vkCreateGraphicsPipelines failed with error code 0x%X.\n", res);
@@ -70,7 +71,7 @@ index 51f96c4..ab32688 100644
              return;
          }
      }
-@@ -2290,6 +2303,7 @@ namespace plume {
+@@ -2290,6 +2304,7 @@ namespace plume {
  #else
          if ((res != VK_SUCCESS) && (res != VK_SUBOPTIMAL_KHR)) {
  #endif
@@ -78,13 +79,25 @@ index 51f96c4..ab32688 100644
              return false;
          }
  
-@@ -2303,6 +2317,146 @@ namespace plume {
+@@ -2303,6 +2318,158 @@ namespace plume {
          }
      }
  
 +    bool VulkanSwapChain::recreateSurface() {
 +        VulkanInterface *renderInterface = commandQueue->device->renderInterface;
 +        VkPhysicalDevice physicalDevice = commandQueue->device->physicalDevice;
++
++#   if defined(PLUME_SDL_VULKAN_ENABLED) && defined(__ANDROID__)
++        {
++            SDL_SysWMinfo wmInfo;
++            SDL_VERSION(&wmInfo.version);
++            if (!SDL_GetWindowWMInfo(renderWindow, &wmInfo) || wmInfo.info.android.window == nullptr) {
++                fprintf(stderr, "Native window is not available, skipping surface recreation.\n");
++                PLUME_ANDROID_LOG(ANDROID_LOG_WARN, "Native window unavailable during surface recreation");
++                return false;
++            }
++        }
++#   endif
 +
 +        // Destroy the existing swap chain and surface so they are recreated on top of the new native window.
 +        releaseSwapChain();
@@ -225,7 +238,22 @@ index 51f96c4..ab32688 100644
      bool VulkanSwapChain::resize() {
          getWindowSize(width, height);
  
-@@ -2326,7 +2480,7 @@ namespace plume {
+@@ -2311,6 +2478,14 @@ namespace plume {
+             return false;
+         }
+ 
++        // If the surface was destroyed (e.g. during a pause while a system dialog was open),
++        // recreate it now that the window is valid again.
++        if (surface == VK_NULL_HANDLE) {
++            if (!recreateSurface()) {
++                return false;
++            }
++        }
++
+         // Destroy any image view references to the current swap chain.
+         releaseImageViews();
+ 
+@@ -2326,7 +2501,7 @@ namespace plume {
          createInfo.imageExtent.width = width;
          createInfo.imageExtent.height = height;
          createInfo.imageArrayLayers = 1;
@@ -234,7 +262,7 @@ index 51f96c4..ab32688 100644
          createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
          createInfo.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
          createInfo.compositeAlpha = pickedAlphaFlag;
-@@ -2335,8 +2489,44 @@ namespace plume {
+@@ -2335,8 +2510,44 @@ namespace plume {
          createInfo.oldSwapchain = vk;
  
          VkResult res = vkCreateSwapchainKHR(commandQueue->device->vk, &createInfo, nullptr, &vk);
@@ -280,7 +308,7 @@ index 51f96c4..ab32688 100644
              return false;
          }
  
-@@ -2431,6 +2621,10 @@ namespace plume {
+@@ -2431,6 +2642,10 @@ namespace plume {
      }
  
      uint32_t VulkanSwapChain::getRefreshRate() const {
@@ -291,7 +319,7 @@ index 51f96c4..ab32688 100644
          VkRefreshCycleDurationGOOGLE refreshCycle = {};
          VkResult res = vkGetRefreshCycleDurationGOOGLE(commandQueue->device->vk, vk, &refreshCycle);
          if (res != VK_SUCCESS) {
-@@ -2439,6 +2633,7 @@ namespace plume {
+@@ -2439,6 +2654,7 @@ namespace plume {
          }
  
          return std::lround(1000000000.0 / refreshCycle.refreshDuration);
@@ -299,7 +327,7 @@ index 51f96c4..ab32688 100644
      }
  
      void VulkanSwapChain::getWindowSize(uint32_t &dstWidth, uint32_t &dstHeight) const {
-@@ -4115,7 +4310,13 @@ namespace plume {
+@@ -4115,7 +4331,13 @@ namespace plume {
          capabilities.bufferDeviceAddress = bufferDeviceAddressSupported;
          capabilities.samplerMirrorClampToEdge = supportedOptionalExtensions.find(VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_EXTENSION_NAME) != supportedOptionalExtensions.end();
          capabilities.presentWait = presentWaitSupported;
@@ -313,7 +341,7 @@ index 51f96c4..ab32688 100644
          capabilities.maxTextureSize = physicalDeviceProperties.limits.maxImageDimension2D;
          capabilities.preferHDR = memoryHeapSize > (512 * 1024 * 1024);
          capabilities.dynamicDepthBias = true;
-@@ -4446,11 +4647,27 @@ namespace plume {
+@@ -4446,11 +4668,27 @@ namespace plume {
  #else
      VulkanInterface::VulkanInterface() {
  #endif
