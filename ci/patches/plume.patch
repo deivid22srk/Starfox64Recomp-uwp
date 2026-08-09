@@ -32,3 +32,40 @@ index 8be5b05..8b9b91a 100644
  #elif defined(__linux__)
      struct RenderWindow {
          Display* display;
+diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
+index 51f96c4..d536997 100644
+--- a/plume_vulkan.cpp
++++ b/plume_vulkan.cpp
+@@ -2431,6 +2431,10 @@ namespace plume {
+     }
+ 
+     uint32_t VulkanSwapChain::getRefreshRate() const {
++#   if defined(__ANDROID__)
++        // VK_GOOGLE_display_timing is not usable on Android; fall back to the OS refresh rate.
++        return 0;
++#   else
+         VkRefreshCycleDurationGOOGLE refreshCycle = {};
+         VkResult res = vkGetRefreshCycleDurationGOOGLE(commandQueue->device->vk, vk, &refreshCycle);
+         if (res != VK_SUCCESS) {
+@@ -2439,6 +2443,7 @@ namespace plume {
+         }
+ 
+         return std::lround(1000000000.0 / refreshCycle.refreshDuration);
++#   endif
+     }
+ 
+     void VulkanSwapChain::getWindowSize(uint32_t &dstWidth, uint32_t &dstHeight) const {
+@@ -4115,7 +4120,13 @@ namespace plume {
+         capabilities.bufferDeviceAddress = bufferDeviceAddressSupported;
+         capabilities.samplerMirrorClampToEdge = supportedOptionalExtensions.find(VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_EXTENSION_NAME) != supportedOptionalExtensions.end();
+         capabilities.presentWait = presentWaitSupported;
++#   if defined(__ANDROID__)
++        // Android Vulkan drivers advertise VK_GOOGLE_display_timing but the entry point crashes
++        // through the system libvulkan trampoline, so never use it on Android.
++        capabilities.displayTiming = false;
++#   else
+         capabilities.displayTiming = supportedOptionalExtensions.find(VK_GOOGLE_DISPLAY_TIMING_EXTENSION_NAME) != supportedOptionalExtensions.end();
++#   endif
+         capabilities.maxTextureSize = physicalDeviceProperties.limits.maxImageDimension2D;
+         capabilities.preferHDR = memoryHeapSize > (512 * 1024 * 1024);
+         capabilities.dynamicDepthBias = true;
