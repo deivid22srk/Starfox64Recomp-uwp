@@ -3,6 +3,10 @@
 #include <variant>
 #include <algorithm>
 
+#ifdef __ANDROID__
+#include <SDL.h>
+#endif
+
 #define HLSL_CPU
 #include "hle/rt64_application.h"
 #include "rt64_render_hooks.h"
@@ -255,6 +259,12 @@ zelda64::renderer::RT64Context::RT64Context(uint8_t* rdram, ultramodern::rendere
     // Set up the RT64 application configuration fields.
     RT64::ApplicationConfiguration appConfig;
     appConfig.useConfigurationFile = false;
+#ifdef __ANDROID__
+    // On Android, HOME points to /data which apps cannot write to, so use the app's
+    // internal storage for RT64's data path instead.
+    appConfig.detectDataPath = false;
+    appConfig.dataPath = std::filesystem::path(SDL_AndroidGetInternalStoragePath()) / ".rt64";
+#endif
 
     // Create the RT64 application.
     app = std::make_unique<RT64::Application>(appCore, appConfig);
