@@ -19,8 +19,9 @@ jobs:
 
       - name: Init required submodules
         run: |
+          git submodule update --init --recursive \
+            lib/N64ModernRuntime
           git submodule update --init \
-            lib/N64ModernRuntime \
             lib/rt64 \
             lib/RmlUi \
             lib/lunasvg \
