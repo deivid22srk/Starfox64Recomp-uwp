@@ -7,6 +7,10 @@
 #include "nfd.h"
 #include <filesystem>
 
+#ifdef __ANDROID__
+#include "../android/turnip_loader.h"
+#endif
+
 static std::string version_string;
 
 Rml::DataModelHandle model_handle;
@@ -102,6 +106,17 @@ public:
                 recompui::set_config_tab(recompui::ConfigTab::Mods);
                 recompui::hide_all_contexts();
                 recompui::show_context(recompui::get_config_context_id(), "");
+            }
+        );
+        recompui::register_event(listener, "select_driver",
+            [](const std::string& param, Rml::Event& event) {
+#ifdef __ANDROID__
+                zelda64::android_open_driver_picker();
+                std::string driver_path;
+                if (zelda64::android_driver_pick_result(driver_path)) {
+                    TurnipLoader::setCustomDriverPath(driver_path);
+                }
+#endif
             }
         );
         recompui::register_event(listener, "exit_game",

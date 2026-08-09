@@ -47,14 +47,18 @@
 							<div class="menu-list-item__bullet">•</div>
 							<div class="menu-list-item__label">Settings</div>
 						</button>
-						<button onclick="open_mods" class="menu-list-item menu-list-item--right">
-							<div class="menu-list-item__bullet">•</div>
-							<div class="menu-list-item__label">Mods</div>
-						</button>
-						<button onclick="exit_game" class="menu-list-item menu-list-item--right">
-							<div class="menu-list-item__bullet">•</div>
-							<div class="menu-list-item__label">Exit</div>
-						</button>
+					<button onclick="open_mods" class="menu-list-item menu-list-item--right">
+						<div class="menu-list-item__bullet">•</div>
+						<div class="menu-list-item__label">Mods</div>
+					</button>
+					<button onclick="select_driver" class="menu-list-item menu-list-item--right">
+						<div class="menu-list-item__bullet">•</div>
+						<div class="menu-list-item__label">Select Driver (ZIP)</div>
+					</button>
+					<button onclick="exit_game" class="menu-list-item menu-list-item--right">
+						<div class="menu-list-item__bullet">•</div>
+						<div class="menu-list-item__label">Exit</div>
+					</button>
 					</div>
 				</div>
 				<div class="bottom-left">

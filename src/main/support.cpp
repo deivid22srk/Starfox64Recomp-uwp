@@ -19,6 +19,12 @@ std::condition_variable rom_pick_cv;
 bool rom_pick_done = false;
 bool rom_pick_success = false;
 std::string rom_pick_path;
+
+std::mutex driver_pick_mutex;
+std::condition_variable driver_pick_cv;
+bool driver_pick_done = false;
+bool driver_pick_success = false;
+std::string driver_pick_path;
 }
 
 // Called from Java (MainActivity.onActivityResult) on the UI thread after the
@@ -61,6 +67,50 @@ void android_open_rom_picker() {
 
     std::unique_lock lock(rom_pick_mutex);
     rom_pick_cv.wait(lock, [] { return rom_pick_done; });
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_sf64recomp_app_MainActivity_nativeOnDriverSelected(JNIEnv* env, jclass, jstring jpath) {
+    {
+        std::lock_guard lock(driver_pick_mutex);
+        if (jpath != nullptr) {
+            const char* path_c = env->GetStringUTFChars(jpath, nullptr);
+            driver_pick_success = path_c != nullptr && path_c[0] != '\0';
+            driver_pick_path = path_c != nullptr ? path_c : "";
+            if (path_c != nullptr) {
+                env->ReleaseStringUTFChars(jpath, path_c);
+            }
+        } else {
+            driver_pick_success = false;
+            driver_pick_path = "";
+        }
+        driver_pick_done = true;
+    }
+    driver_pick_cv.notify_all();
+}
+
+void android_open_driver_picker() {
+    {
+        std::lock_guard lock(driver_pick_mutex);
+        driver_pick_done = false;
+    }
+
+    JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+    jobject activity = (jobject) SDL_AndroidGetActivity();
+    jclass cls = env->GetObjectClass(activity);
+    jmethodID openDriverPicker = env->GetStaticMethodID(cls, "openDriverPicker", "()V");
+    if (openDriverPicker != nullptr) {
+        env->CallStaticVoidMethod(cls, openDriverPicker);
+    }
+
+    std::unique_lock lock(driver_pick_mutex);
+    driver_pick_cv.wait(lock, [] { return driver_pick_done; });
+}
+
+bool android_driver_pick_result(std::string& out_path) {
+    std::unique_lock lock(driver_pick_mutex);
+    out_path = driver_pick_path;
+    return driver_pick_success;
 }
 #endif
 

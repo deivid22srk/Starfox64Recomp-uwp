@@ -10,9 +10,12 @@ import org.libsdl.app.SDLActivity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class MainActivity extends SDLActivity {
     private static final int REQUEST_OPEN_ROM = 1001;
+    private static final int REQUEST_OPEN_DRIVER = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,14 @@ public class MainActivity extends SDLActivity {
         activity.startActivityForResult(intent, REQUEST_OPEN_ROM);
     }
 
+    public static void openDriverPicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/zip");
+        Activity activity = (Activity) SDLActivity.mSingleton;
+        activity.startActivityForResult(intent, REQUEST_OPEN_DRIVER);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,6 +96,15 @@ public class MainActivity extends SDLActivity {
                 }
             }
             nativeOnRomSelected(path);
+        } else if (requestCode == REQUEST_OPEN_DRIVER) {
+            String path = "";
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                String extracted = extractDriverFromZip(data.getData());
+                if (extracted != null) {
+                    path = extracted;
+                }
+            }
+            nativeOnDriverSelected(path);
         }
     }
 
@@ -125,5 +145,44 @@ public class MainActivity extends SDLActivity {
         }
     }
 
+    private String extractDriverFromZip(Uri uri) {
+        try {
+            InputStream in = getContentResolver().openInputStream(uri);
+            if (in == null) {
+                return null;
+            }
+
+            File driverDir = new File(getFilesDir(), "driver");
+            driverDir.mkdirs();
+
+            ZipInputStream zis = new ZipInputStream(in);
+            ZipEntry entry;
+            String soPath = null;
+            byte[] buf = new byte[65536];
+
+            while ((entry = zis.getNextEntry()) != null) {
+                String entryName = entry.getName();
+                if (entryName.endsWith(".so") && !entry.isDirectory()) {
+                    String fileName = entryName.substring(entryName.lastIndexOf('/') + 1);
+                    File outFile = new File(driverDir, fileName);
+                    FileOutputStream fos = new FileOutputStream(outFile);
+                    int n;
+                    while ((n = zis.read(buf)) != -1) {
+                        fos.write(buf, 0, n);
+                    }
+                    fos.close();
+                    soPath = outFile.getAbsolutePath();
+                }
+                zis.closeEntry();
+            }
+            zis.close();
+            in.close();
+            return soPath;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private static native void nativeOnRomSelected(String path);
+    private static native void nativeOnDriverSelected(String path);
 }
