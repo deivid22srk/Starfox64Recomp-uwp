@@ -6,8 +6,10 @@
 #include <dlfcn.h>
 #include <fstream>
 #include <filesystem>
+#include <jni.h>
 
 #include <SDL.h>
+#include <SDL_system.h>
 #include <vulkan/vulkan.h>
 
 #include <adrenotools/driver.h>
