@@ -194,10 +194,12 @@ void recompui::init_styling(const std::filesystem::path& rcss_file) {
     {
         std::ifstream style_stream{rcss_file};
         style_stream.seekg(0, std::ios::end);
-        style.resize(style_stream.tellg());
+        std::streamsize file_size = style_stream.tellg();
         style_stream.seekg(0, std::ios::beg);
-
-        style_stream.read(style.data(), style.size());
+        if (file_size > 0) {
+            style.resize(static_cast<size_t>(file_size));
+            style_stream.read(style.data(), style.size());
+        }
     }
     std::unique_ptr<Rml::StreamMemory> rml_stream = std::make_unique<Rml::StreamMemory>(reinterpret_cast<Rml::byte*>(style.data()), style.size());
     rml_stream->SetSourceURL(rcss_file.filename().string());
