@@ -3,6 +3,7 @@ package com.sf64recomp.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 import org.libsdl.app.SDLActivity;
 
@@ -12,6 +13,56 @@ import java.io.InputStream;
 
 public class MainActivity extends SDLActivity {
     private static final int REQUEST_OPEN_ROM = 1001;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        extractAssets();
+        super.onCreate(savedInstanceState);
+    }
+
+    // Copies the packaged assets (rcss, rml, fonts, icons) out of the APK into
+    // the app's internal storage so the native code can read them as regular files.
+    private void extractAssets() {
+        try {
+            File destDir = new File(getFilesDir(), "assets");
+            destDir.mkdirs();
+            copyAssetDir("", destDir);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void copyAssetDir(String assetPath, File destDir) {
+        try {
+            String[] children = getAssets().list(assetPath);
+            if (children == null) {
+                return;
+            }
+            for (String child : children) {
+                String childPath = assetPath.isEmpty() ? child : assetPath + "/" + child;
+                String[] sub = getAssets().list(childPath);
+                if (sub != null && sub.length > 0) {
+                    File subDir = new File(destDir, child);
+                    subDir.mkdirs();
+                    copyAssetDir(childPath, subDir);
+                } else {
+                    File outFile = new File(destDir, child);
+                    if (outFile.exists()) {
+                        continue;
+                    }
+                    InputStream in = getAssets().open(childPath);
+                    FileOutputStream out = new FileOutputStream(outFile);
+                    byte[] buf = new byte[65536];
+                    int n;
+                    while ((n = in.read(buf)) != -1) {
+                        out.write(buf, 0, n);
+                    }
+                    out.close();
+                    in.close();
+                }
+            }
+        } catch (Exception ignored) {
+        }
+    }
 
     // Called from native code to launch the system file picker.
     public static void openRomPicker() {

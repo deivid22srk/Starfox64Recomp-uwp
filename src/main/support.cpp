@@ -138,7 +138,11 @@ namespace zelda64 {
     }
 
     std::filesystem::path get_asset_path(const char* asset) {
+#if defined(__ANDROID__)
+        return std::filesystem::path(SDL_AndroidGetInternalStoragePath()) / "assets" / asset;
+#else
         return get_program_path() / "assets" / asset;
+#endif
     }
 
     void open_file_dialog(std::function<void(bool success, const std::filesystem::path& path)> callback) {
