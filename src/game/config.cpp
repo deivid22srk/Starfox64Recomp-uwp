@@ -11,6 +11,8 @@
 
 #if defined(_WIN32)
 #include <Shlobj.h>
+#elif defined(__ANDROID__)
+#include "SDL.h"
 #elif defined(__linux__)
 #include <unistd.h>
 #include <pwd.h>
@@ -132,10 +134,13 @@ namespace recomp {
 }
 
 std::filesystem::path zelda64::get_app_folder_path() {
-   // directly check for portable.txt (windows and native linux binary)
-   if (std::filesystem::exists("portable.txt")) {
-       return std::filesystem::current_path();
-   }
+#if defined(__ANDROID__)
+    return std::filesystem::path{SDL_AndroidGetInternalStoragePath()};
+#else
+    // directly check for portable.txt (windows and native linux binary)
+    if (std::filesystem::exists("portable.txt")) {
+        return std::filesystem::current_path();
+    }
 
 #if defined(__APPLE__)
    // Check for portable file in the directory containing the app bundle.
@@ -179,12 +184,13 @@ std::filesystem::path zelda64::get_app_folder_path() {
     #endif
    }
 
-   if (homedir != nullptr) {
-       recomp_dir = std::filesystem::path{homedir} / (std::u8string{u8".config/"} + std::u8string{zelda64::program_id});
-   }
+    if (homedir != nullptr) {
+        recomp_dir = std::filesystem::path{homedir} / (std::u8string{u8".config/"} + std::u8string{zelda64::program_id});
+    }
 #endif
 
     return recomp_dir;
+#endif
 }
 
 bool read_json(std::ifstream input_file, nlohmann::json& json_out) {
