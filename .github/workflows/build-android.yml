@@ -19,14 +19,14 @@ jobs:
 
       - name: Init required submodules
         run: |
-          git submodule update --init --depth 1 \
+          git submodule update --init \
             lib/N64ModernRuntime \
             lib/rt64 \
             lib/RmlUi \
             lib/lunasvg \
             lib/sse2neon \
             lib/freetype-windows-binaries
-          git submodule update --init --depth 1 --recursive \
+          git submodule update --init --recursive \
             lib/rt64
 
       - name: Set up JDK 17
@@ -47,9 +47,8 @@ jobs:
 
       - name: Apply submodule patches
         run: |
-          git -C lib/N64ModernRuntime apply ../ci/patches/n64modernruntime.patch
-          git -C lib/rt64 apply ../ci/patches/rt64.patch
-          git -C lib/rt64/src/contrib/plume apply ../../../ci/patches/plume.patch
+          git -C lib/rt64 apply $GITHUB_WORKSPACE/ci/patches/rt64.patch
+          git -C lib/rt64/src/contrib/plume apply $GITHUB_WORKSPACE/ci/patches/plume.patch
 
       - name: Configure CMake
         run: |
