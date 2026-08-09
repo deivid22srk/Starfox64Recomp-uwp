@@ -578,6 +578,14 @@ void reorder_texture_pack(recomp::mods::ModContext&) {
 int main(int argc, char** argv) {
     (void) argc;
     (void) argv;
+
+#ifdef __ANDROID__
+    {
+        extern void android_loadTurnipDriver();
+        android_loadTurnipDriver();
+    }
+#endif
+
     recomp::Version project_version{};
     if (!recomp::Version::from_string(version_string, project_version)) {
         ultramodern::error_handling::message_box(("Invalid version string: " + version_string).c_str());

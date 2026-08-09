@@ -79,6 +79,7 @@ if (ANDROID)
     set(ZSTD_BUILD_DICTBUILDER OFF CACHE BOOL "" FORCE)
     set(ZSTD_BUILD_PROGRAMS OFF CACHE BOOL "" FORCE)
     add_subdirectory(${CMAKE_SOURCE_DIR}/lib/SDL2 ${CMAKE_BINARY_DIR}/sdl2 EXCLUDE_FROM_ALL)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/libadrenotools ${CMAKE_BINARY_DIR}/libadrenotools EXCLUDE_FROM_ALL)
 endif()
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/lib/rt64 ${CMAKE_BINARY_DIR}/rt64)
@@ -256,6 +257,7 @@ endif()
 
 if (ANDROID)
     list(APPEND SOURCES ${CMAKE_SOURCE_DIR}/src/android/nfd_stub.cpp)
+    list(APPEND SOURCES ${CMAKE_SOURCE_DIR}/src/android/turnip_loader.cpp)
 endif()
 
 target_include_directories(Starfox64Recompiled PRIVATE
@@ -282,6 +284,7 @@ if (ANDROID)
     target_include_directories(Starfox64Recompiled PRIVATE
         ${CMAKE_SOURCE_DIR}/lib/SDL2/include
         ${CMAKE_SOURCE_DIR}/lib/rt64/src/contrib/plume
+        ${CMAKE_SOURCE_DIR}/thirdparty/libadrenotools/include
     )
 endif()
 
@@ -419,6 +422,7 @@ if (ANDROID)
         android
         log
         z
+        adrenotools
     )
 endif()
 
