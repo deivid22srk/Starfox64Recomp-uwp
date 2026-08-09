@@ -52,7 +52,7 @@ void android_open_rom_picker() {
     }
 
     JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
-    jobject activity = SDL_AndroidGetActivity();
+    jobject activity = (jobject) SDL_AndroidGetActivity();
     jclass cls = env->GetObjectClass(activity);
     jmethodID openRomPicker = env->GetStaticMethodID(cls, "openRomPicker", "()V");
     if (openRomPicker != nullptr) {
