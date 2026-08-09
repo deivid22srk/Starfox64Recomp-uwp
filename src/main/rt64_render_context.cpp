@@ -5,6 +5,10 @@
 
 #ifdef __ANDROID__
 #include <SDL.h>
+#include <android/log.h>
+#define RT64_ANDROID_LOG(fmt, ...) __android_log_print(ANDROID_LOG_INFO, "RT64Context", fmt, ##__VA_ARGS__)
+#else
+#define RT64_ANDROID_LOG(fmt, ...) do {} while (0)
 #endif
 
 #define HLSL_CPU
@@ -303,6 +307,7 @@ zelda64::renderer::RT64Context::RT64Context(uint8_t* rdram, ultramodern::rendere
     setup_result = map_setup_result(app->setup(thread_id));
     // Get the API that RT64 chose.
     chosen_api = map_graphics_api(app->chosenGraphicsAPI);
+    RT64_ANDROID_LOG("setup result=%d chosen_api=%d", int(setup_result), int(chosen_api));
     if (setup_result != ultramodern::renderer::SetupResult::Success) {
         app = nullptr;
         return;
