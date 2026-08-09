@@ -4,13 +4,13 @@
 .vscode/launch.json
 
 # Input elf and rom files
-*.elf
 *.z64
-*.map
+!patches/patches.elf
+!patches/patches.map
 
 # Output C files
-RecompiledFuncs/
-RecompiledPatches/
+# RecompiledFuncs/
+# RecompiledPatches/
 
 # Linux build output
 build/

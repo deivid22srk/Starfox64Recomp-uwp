@@ -1,0 +1,666 @@
+     VMA      LMA     Size Align Out     In      Symbol
+       0        0        0     1 RAMBASE = 0x80801000
+       0        0        0     1 PATCH_RAM_END = 0x81000000
+80801000        0     46c0    16 .text
+80801000        0        0    16         Game_InitViewport.o:(.text)
+80801000        0        0    16         actor_cutscene_tagging.o:(.text)
+80801000        0        0    16         actor_event_tagging.o:(.text)
+80801000        0        0    16         actor_tagging.o:(.text)
+80801000        0        0    16         arwing_teamfaces.o:(.text)
+80801000        0        0    16         audio_ub_fix.o:(.text)
+80801000        0        0    16         audio_voices.o:(.text)
+80801000        0        0    16         audio_volume.o:(.text)
+80801000        0        0    16         background.o:(.text)
+80801000        0      5a4    16         boss_killer.o:(.text)
+80801000        0       28     1                 PreventExecution
+80801028       28      57c     1                 KillBoss
+808015b0      5b0        0    16         boss_tagging.o:(.text)
+808015b0      5b0      4b8    16         camera.o:(.text)
+808015b0      5b0       34     1                 Math_Vec3f_Diff
+808015e4      5e4       34     1                 Math_Vec3f_Sum
+80801618      618       50     1                 Math_Vec3f_DistXYZ
+80801668      668      400     1                 should_interpolate_perspective
+80801a70      a70        0    16         controller_detection_bypass.o:(.text)
+80801a70      a70       60    16         cutscene_record.o:(.text)
+80801a70      a70       60     1                 UpdateVisPerFrameFromRecording
+80801ad0      ad0        0    16         debug.o:(.text)
+80801ad0      ad0        0    16         debug_title_skip.o:(.text)
+80801ad0      ad0        0    16         display_patches.o:(.text)
+80801ad0      ad0        0    16         dpad_control.o:(.text)
+80801ad0      ad0        0    16         effect_tagging.o:(.text)
+80801ad0      ad0      1a0    16         ending.o:(.text)
+80801ad0      ad0      1a0     1                 DrawBorders
+80801c70      c70       2c    16         game_fixes.o:(.text)
+80801c70      c70       2c     1                 memcpy2
+80801ca0      ca0        0    16         gfx_patches.o:(.text)
+80801ca0      ca0      3ec    16         ground.o:(.text)
+80801ca0      ca0      3ec     1                 AllRangeGround_Draw
+80802090     1090        0    16         hud_patches.o:(.text)
+80802090     1090        0    16         invert_y_axis.o:(.text)
+80802090     1090        0    16         item_tagging.o:(.text)
+80802090     1090      3d4    16         levelselect.o:(.text)
+80802090     1090      3d4     1                 Map_LevelSelect
+80802470     1470        0    16         lod_patches.o:(.text)
+80802470     1470       84    16         map_tagging.o:(.text)
+80802470     1470       44     1                 checkIfPlanetIdNotEq9
+808024b4     14b4       40     1                 checkExplosionInKatina
+80802500     1500        0    16         memory.o:(.text)
+80802500     1500      138    16         meteor_fix.o:(.text)
+80802500     1500       9c     1                 Meteo_SpawnMeteorsGroup1
+8080259c     159c       9c     1                 Meteo_SpawnMeteorsGroup2
+80802640     1640        0    16         object_tagging.o:(.text)
+80802640     1640        0    16         option.o:(.text)
+80802640     1640       24    16         print.o:(.text)
+80802640     1640       24     1                 proutPrintf
+80802670     1670        0    16         required_patches.o:(.text)
+80802670     1670      170    16         scenery_tagging.o:(.text)
+80802670     1670      170     1                 Recomp_CoBuilding_Draw
+808027e0     17e0        0    16         sfxjukebox.o:(.text)
+808027e0     17e0        0    16         shadow_tagging.o:(.text)
+808027e0     17e0        0    16         shooting_star.o:(.text)
+808027e0     17e0     1484    16         skeleton_tagging.o:(.text)
+808027e0     17e0      3bc     1                 Animation_DrawSkeletonEnding
+80802b9c     1b9c      3c4     1                 Animation_DrawLimbEnding
+80802f60     1f60      308     1                 Animation_DrawSkeletonOriginal
+80803268     2268      304     1                 Animation_DrawLimbOriginal
+8080356c     256c      378     1                 Animation_DrawLimb_SkipInterpolation
+808038e4     28e4      380     1                 Animation_DrawSkeleton_SkipInterpolation
+80803c70     2c70     1840    16         spawner.o:(.text)
+80803c70     2c70       9c     1                 Spawner_Actor
+80803d0c     2d0c      128     1                 Spawner_Boss
+80803e34     2e34      108     1                 Spawner_Scenery
+80803f3c     2f3c      114     1                 Spawner_Scenery360
+80804050     3050      10c     1                 Spawner_Sprite
+8080415c     315c      2a8     1                 Spawner_Item
+80804404     3404      12c     1                 Spawner_Event
+80804530     3530      110     1                 Spawner_Effect
+80804640     3640      238     1                 Spawner_ObjCount
+80804878     3878      244     1                 Spawner_ObjKill
+80804abc     3abc       24     1                 Spawner_Playground
+80804ae0     3ae0      9d0     1                 Spawner
+808054b0     44b0       4c    16         starfield.o:(.text)
+808054b0     44b0       4c     1                 FloatMod
+80805500     4500        0    16         title.o:(.text)
+80805500     4500      1b4    16         uv_scroll.o:(.text)
+80805500     4500      1b4     1                 Gfx_Texture_UV_Scroll
+808056c0     46c0        0    16         versus.o:(.text)
+808056c0     46c0        0    16         widescreen_actors.o:(.text)
+808056c0     46c0    3b3cc     4 .recomp_patch
+808056c0     46c0      740     4         Game_InitViewport.o:(.recomp_patch)
+808056c0     46c0      740     1                 Game_InitViewport
+80805e00     4e00     1bb0     4         actor_cutscene_tagging.o:(.recomp_patch)
+80805e00     4e00      71c     1                 Cutscene_DrawGreatFox
+8080651c     551c     1494     1                 ActorCutscene_Draw
+808079b0     69b0       74     4         actor_event_tagging.o:(.recomp_patch)
+808079b0     69b0       74     1                 Andross_Gate_Draw
+80807a24     6a24     139c     4         actor_tagging.o:(.recomp_patch)
+80807a24     6a24      318     1                 Display_Landmaster
+80807d3c     6d3c      63c     1                 Zoness_ZoSpikeBall_Draw
+80808378     7378      2d4     1                 Aquas_BlueMarine_Draw
+8080864c     764c      348     1                 Display_ActorMarks
+80808994     7994      1e0     1                 Katina_EnemyDraw
+80808b74     7b74      24c     1                 MeMora_Draw
+80808dc0     7dc0     1bb8     4         arwing_teamfaces.o:(.recomp_patch)
+80808dc0     7dc0      170     1                 SectorZ_CsLevelCompleteTeamInit
+80808f30     7f30      204     1                 Corneria_CsLevelComplete1_TeamSetup
+80809134     8134      144     1                 Cutscene_TeamSetup
+80809278     8278      318     1                 SectorY_8019EB80
+80809590     8590      16c     1                 Meteo_LevelComplete_SetupTeam
+808096fc     86fc      178     1                 Meteo_LevelStart_SetupTeam
+80809874     8874      2a0     1                 Katina_SFTeam_LevelComplete_Update
+80809b14     8b14       fc     1                 Katina_SFTeamFleeUpdate
+80809c10     8c10      11c     1                 Katina_SFTeamMissionAccomUpdate
+80809d2c     8d2c      170     1                 Fortuna_LevelComplete_CsSpawnTeam
+80809e9c     8e9c      13c     1                 Bolse_8018EAEC
+80809fd8     8fd8      114     1                 Bolse_8018F83C
+8080a0ec     90ec      294     1                 Solar_801A7750
+8080a380     9380       ec     1                 Area6_8018D804
+8080a46c     946c      10c     1                 Area6_8018EC38
+8080a578     9578      144     1                 SectorZ_CsTeamInit
+8080a6bc     96bc      150     1                 SectorY_801A06A4
+8080a80c     980c      16c     1                 Cutscene_WarpZoneComplete_TeamSetup
+8080a978     9978      430     4         audio_ub_fix.o:(.recomp_patch)
+8080a978     9978      264     1                 AudioHeap_DiscardSampleCaches
+8080abdc     9bdc       74     1                 Main_Initialize
+8080ac50     9c50      158     1                 Main_GetNewTasks
+8080ada8     9da8      82c     4         audio_volume.o:(.recomp_patch)
+8080ada8     9da8      82c     1                 Audio_UpdateActiveSequences
+8080b5d4     a5d4     27a8     4         background.o:(.recomp_patch)
+8080b5d4     a5d4     22f4     1                 Background_DrawBackdrop
+8080d8c8     c8c8      4b4     1                 Play_InitLevel
+8080dd7c     cd7c     2840     4         boss_tagging.o:(.recomp_patch)
+8080dd7c     cd7c      530     1                 Andross_AndBrain_Draw
+8080e2ac     d2ac     10e0     1                 Meteo_MeCrusher_Draw
+8080f38c     e38c      28c     1                 Meteo_MeCrusherShield_Draw
+8080f618     e618      468     1                 Area6_8018BCD4
+8080fa80     ea80      b3c     1                 SectorY_SyShogun_Draw
+808105bc     f5bc     1284     4         cutscene_record.o:(.recomp_patch)
+808105bc     f5bc      a54     1                 Cutscene_LevelComplete
+80811010    10010      444     1                 Cutscene_LevelStart
+80811454    10454      1a8     1                 Ending_Main
+808115fc    105fc       20     1                 Ending_8018D250
+8081161c    1061c      224     1                 Area6_A6Gorgon_Init
+80811840    10840     3698     4         display_patches.o:(.recomp_patch)
+80811840    10840      fec     1                 Display_Update
+8081282c    1182c      42c     1                 Aquas_BlueMarineReticle_Draw
+80812c58    11c58      38c     1                 Display_LockOnIndicator
+80812fe4    11fe4      348     1                 Display_Reticle
+8081332c    1232c      1d4     1                 Display_LandmasterEngineGlow_Draw
+80813500    12500      530     1                 Actor_DrawEngineAndContrails
+80813a30    12a30      214     1                 Actor_DrawEngineGlow
+80813c44    12c44      1f0     1                 Bolse_BoBaseShield_Update
+80813e34    12e34      8f8     1                 Display_ArwingLaserCharge
+8081472c    1372c      3b4     1                 Display_BarrelRollShield
+80814ae0    13ae0      3f8     1                 Display_ArwingWingTrail_Draw
+80814ed8    13ed8      910     4         dpad_control.o:(.recomp_patch)
+80814ed8    13ed8      2b4     1                 Option_Input_MoveCursor_Y
+8081518c    1418c      114     1                 HUD_PauseScreenInput
+808152a0    142a0      314     1                 Option_Input_Sound_X
+808155b4    145b4      130     1                 Option_Input_DataSelect_X
+808156e4    146e4      104     1                 Map_Input_CursorY
+808157e8    147e8     1f34     4         effect_tagging.o:(.recomp_patch)
+808157e8    147e8      3d4     1                 TexturedLine_Draw
+80815bbc    14bbc      734     1                 Effect_Effect395_Draw
+808162f0    152f0      27c     1                 Effect_ElectricArc_Draw
+8081656c    1556c      144     1                 Effect_Effect383_Update
+808166b0    156b0      110     1                 CoWaterfall_Update
+808167c0    157c0      930     1                 func_tank_80044868
+808170f0    160f0      1ec     1                 Corneria_CoGaruda1_Update
+808172dc    162dc      2c4     1                 Corneria_CoGaruda2_Update
+808175a0    165a0      17c     1                 Corneria_CoGaruda3_Update
+8081771c    1671c      d4c     4         ending.o:(.recomp_patch)
+8081771c    1671c      220     1                 Ending_801876A4
+8081793c    1693c      42c     1                 Ending_80191C7C
+80817d68    16d68      49c     1                 Ending_Floor_Draw
+80818204    17204      138     1                 Ending_80190648
+8081833c    1733c      12c     1                 Ending_Draw
+80818468    17468     5528     4         game_fixes.o:(.recomp_patch)
+80818468    17468      dbc     1                 Bolse_UpdateEventHandler
+80819224    18224     1170     1                 Solar_LevelComplete
+8081a394    19394      2cc     1                 ActorTeamArwing_Draw
+8081a660    19660     2b3c     1                 SectorX_SxSpyborg_Update
+8081d19c    1c19c      538     1                 FoBase_ExplodeCs
+8081d6d4    1c6d4      2bc     1                 SectorX_LevelComplete_SetupTeam
+8081d990    1c990     137c     4         gfx_patches.o:(.recomp_patch)
+8081d990    1c990      c4c     1                 Graphics_ThreadEntry
+8081e5dc    1d5dc      174     1                 Graphics_InitializeTask
+8081e750    1d750      1c4     1                 Graphics_SetTask
+8081e914    1d914      230     1                 Game_InitMasterDL
+8081eb44    1db44       e0     1                 Ending_8018D398
+8081ec24    1dc24       e8     1                 Game_InitStandbyDL
+8081ed0c    1dd0c     481c     4         ground.o:(.recomp_patch)
+8081ed0c    1dd0c     32a0     1                 Background_DrawGround
+80821fac    20fac      488     1                 Bolse_DrawDynamicGround
+80822434    21434      634     1                 Play_UpdateDynaFloor
+80822a68    21a68      ac0     1                 Play_UpdateLevel
+80823528    22528     5190     4         hud_patches.o:(.recomp_patch)
+80823528    22528      1d0     1                 HUD_PlayerShieldGauge_Draw
+808236f8    226f8      6f4     1                 HUD_Score_Draw
+80823dec    22dec      994     1                 HUD_GoldRings_Draw
+80824780    23780      48c     1                 HUD_DrawBossHealth
+80824c0c    23c0c      290     1                 HUD_LivesCount2_Draw
+80824e9c    23e9c      378     1                 HUD_BoostGauge_Draw
+80825214    24214      c00     1                 HUD_BombCounter_Draw
+80825e14    24e14      2f8     1                 HUD_EdgeArrows_Draw
+8082610c    2510c      128     1                 HUD_Radar
+80826234    25234      80c     1                 HUD_RadarMarks_Update
+80826a40    25a40      728     1                 Display_DrawHelpAlert
+80827168    26168      a58     1                 Radio_Draw
+80827bc0    26bc0       f8     1                 HUD_RadioDamage
+80827cb8    26cb8      91c     1                 HUD_LevelClearStatusScreen_Draw
+808285d4    275d4       e4     1                 Training_RingPassCount_Draw
+808286b8    276b8     2764     4         invert_y_axis.o:(.recomp_patch)
+808286b8    276b8      7f0     1                 Player_MoveArwing360
+80828ea8    27ea8      824     1                 Player_MoveArwingOnRails
+808296cc    286cc      800     1                 func_tank_80045678
+80829ecc    28ecc      3a4     1                 Aquas_UpdateCamera
+8082a270    29270      bac     1                 Aquas_BlueMarineMove
+8082ae1c    29e1c      378     4         item_tagging.o:(.recomp_patch)
+8082ae1c    29e1c      378     1                 ItemCheckpoint_Draw
+8082b194    2a194      210     4         levelselect.o:(.recomp_patch)
+8082b194    2a194      210     1                 Map_Update
+8082b3a4    2a3a4     3114     4         map_tagging.o:(.recomp_patch)
+8082b3a4    2a3a4      ba8     1                 Map_Planet_Draw
+8082bf4c    2af4c      1f4     1                 Map_PlanetCleared_Draw
+8082c140    2b140      584     1                 Map_PlanetExplosions_Draw
+8082c6c4    2b6c4      2ac     1                 Map_MeteoMeteors_Draw
+8082c970    2b970      440     1                 Map_Area6Ships_Draw
+8082cdb0    2bdb0      35c     1                 Map_Arwing_Draw
+8082d10c    2c10c      dfc     1                 Map_PathPlanet_Draw
+8082df08    2cf08      5b0     1                 Map_Draw
+8082e4b8    2d4b8       14     4         memory.o:(.recomp_patch)
+8082e4b8    2d4b8       14     1                 Memory_FreeAll
+8082e4cc    2d4cc      cc8     4         meteor_fix.o:(.recomp_patch)
+8082e4cc    2d4cc      cc8     1                 Meteo_LevelStart
+8082f194    2e194     290c     4         object_tagging.o:(.recomp_patch)
+8082f194    2e194      d2c     1                 Object_DrawAll
+8082fec0    2eec0      168     1                 BonusText_DrawAll
+80830028    2f028      404     1                 Effect_DrawAll
+8083042c    2f42c     1384     1                 PlayerShot_DrawShot
+808317b0    307b0      2f0     1                 PlayerShot_DrawHitmark
+80831aa0    30aa0      8c8     4         option.o:(.recomp_patch)
+80831aa0    30aa0      198     1                 Option_80197914
+80831c38    30c38      730     1                 Option_Setup
+80832368    31368      330     4         required_patches.o:(.recomp_patch)
+80832368    31368      124     1                 Load_RomFile
+8083248c    3148c      20c     1                 Main_ThreadEntry
+80832698    31698      4a8     4         scenery_tagging.o:(.recomp_patch)
+80832698    31698      41c     1                 Scenery_Draw
+80832ab4    31ab4       28     1                 CoBuilding10_Draw
+80832adc    31adc       64     1                 SceneryRotateTowardsCamera
+80832b40    31b40      710     4         shadow_tagging.o:(.recomp_patch)
+80832b40    31b40      398     1                 Object_DrawShadow
+80832ed8    31ed8      378     1                 Display_PlayerShadow_Draw
+80833250    32250     2210     4         shooting_star.o:(.recomp_patch)
+80833250    32250     2210     1                 Andross_LevelComplete
+80835460    34460      c90     4         skeleton_tagging.o:(.recomp_patch)
+80835460    34460      3c0     1                 Animation_DrawSkeleton
+80835820    34820      3c8     1                 Animation_DrawLimb
+80835be8    34be8      47c     1                 Display_Arwing_Skel
+80836064    35064       8c     1                 Andross_AndPassage_Draw
+808360f0    350f0     1120     4         starfield.o:(.recomp_patch)
+808360f0    350f0      5c0     1                 Background_DrawStarfield
+808366b0    356b0      15c     1                 Play_GenerateStarfield
+8083680c    3580c      284     1                 Camera_SetStarfieldPos
+80836a90    35a90      20c     1                 Play_SetupStarfield
+80836c9c    35c9c      574     1                 Background_DrawPartialStarfield
+80837210    36210     2a34     4         title.o:(.recomp_patch)
+80837210    36210      270     1                 Title_Draw
+80837480    36480      2b4     1                 Title_GreatFoxDeck_Draw
+80837734    36734      348     1                 Title_GreatFoxDeckPlatform_Draw
+80837a7c    36a7c      498     1                 Title_CorneriaExplosions_Draw
+80837f14    36f14      1e0     1                 Title_GreatFoxDeckLauncher_Draw
+808380f4    370f4      344     1                 Title_Arwing_DrawEngineGlow
+80838438    37438      5a4     1                 Title_EngineGlowParticles_Draw
+808389dc    379dc      1b0     1                 Title_ArwingShadow_Draw
+80838b8c    37b8c      240     1                 Title_Passage_Draw
+80838dcc    37dcc      e78     1                 Title_CsTakeOff_Update
+80839c44    38c44      b10     4         versus.o:(.recomp_patch)
+80839c44    38c44      b10     1                 Option_MainMenu_Update
+8083a754    39754     6338     4         widescreen_actors.o:(.recomp_patch)
+8083a754    39754      420     1                 Actor_DrawAllRange
+8083ab74    39b74      2d0     1                 Boss_Draw
+8083ae44    39e44      354     1                 Scenery360_Draw
+8083b198    3a198      184     1                 Scenery_Move
+8083b31c    3a31c      228     1                 Item_Draw
+8083b544    3a544      230     1                 Effect_DrawAllRange
+8083b774    3a774     15b4     1                 Corneria_LevelStart
+8083cd28    3bd28     30bc     1                 Macbeth_LevelComplete2
+8083fde4    3ede4      108     1                 Display_CheckPlayerVisible
+8083feec    3eeec      ba0     1                 Solar_LevelStart
+80840a8c    3fa8c       40     4 .recomp_export
+80840a8c    3fa8c       40     4         print.o:(.recomp_export)
+80840a8c    3fa8c       40     1                 recomp_printf
+80840acc    3facc        8     4 .recomp_event
+80840acc    3facc        8     4         required_patches.o:(.recomp_event)
+80840acc    3facc        8     1                 recomp_on_init
+80840ad8    3fad8     1a74     8 .rodata
+80840ad8    3fad8      538     4         <internal>:(.rodata.cst4)
+80841010    40010       10     4         Game_InitViewport.o:(.rodata)
+80841020    40020       d0     4         actor_cutscene_tagging.o:(.rodata)
+808410f0    400f0       50     4         <internal>:(.rodata.cst16)
+80841140    40140       18     4         actor_tagging.o:(.rodata)
+80841158    40158       54     4         arwing_teamfaces.o:(.rodata)
+808411ac    401ac       2c     4         audio_volume.o:(.rodata)
+808411d8    401d8       e0     8         <internal>:(.rodata.cst8)
+808412b8    402b8      23c     4         background.o:(.rodata)
+808414f4    404f4       44     4         boss_killer.o:(.rodata)
+80841538    40538       28     4         boss_tagging.o:(.rodata)
+80841560    40560      16a     1         <internal>:(.rodata.str1.1)
+808416cc    406cc       b0     4         cutscene_record.o:(.rodata)
+8084177c    4077c       30     4         display_patches.o:(.rodata)
+808417ac    407ac       34     4         effect_tagging.o:(.rodata)
+808417e0    407e0       1c     4         ending.o:(.rodata)
+808417fc    407fc      1e8     4         game_fixes.o:(.rodata)
+808419e4    409e4      17c     4         ground.o:(.rodata)
+80841ae0    40ae0       40     1                 sGroundPositions360x_FIX
+80841b20    40b20       40     1                 sGroundPositions360z_FIX
+80841b60    40b60      560     4         hud_patches.o:(.rodata)
+80841f64    40f64       30     1                 HUD_EdgeArrows_Draw.D_800D1EF8
+80841f94    40f94       30     1                 HUD_EdgeArrows_Draw.D_800D1F28
+80841fc4    40fc4       30     1                 HUD_EdgeArrows_Draw.D_800D1F58
+80841ff4    40ff4       30     1                 HUD_EdgeArrows_Draw.D_800D1F88
+80842024    41024       30     1                 HUD_EdgeArrows_Draw.D_800D1FB8
+80842054    41054       30     1                 HUD_EdgeArrows_Draw.D_800D1FE8
+80842084    41084       30     1                 HUD_EdgeArrows_Draw.D_800D2018
+808420c0    410c0       60     4         levelselect.o:(.rodata)
+808420e0    410e0       40     1                 Map_LevelSelect.sLevelSelectPlanetNames
+80842120    41120       4c     4         map_tagging.o:(.rodata)
+8084216c    4116c       38     4         object_tagging.o:(.rodata)
+808421a4    411a4       10     4         required_patches.o:(.rodata)
+808421b4    411b4       e0     4         scenery_tagging.o:(.rodata)
+80842294    41294       8c     4         shadow_tagging.o:(.rodata)
+80842320    41320       98     4         shooting_star.o:(.rodata)
+808423b8    413b8       40     4         spawner.o:(.rodata)
+808423f8    413f8       4c     4         title.o:(.rodata)
+80842444    41444       10     4         uv_scroll.o:(.rodata)
+80842454    41454       34     4         versus.o:(.rodata)
+80842488    41488       c4     4         widescreen_actors.o:(.rodata)
+80842550    41550     a9c0    16 .data
+80842550    41550        0    16         Game_InitViewport.o:(.data)
+80842550    41550        0    16         actor_cutscene_tagging.o:(.data)
+80842550    41550        0    16         actor_event_tagging.o:(.data)
+80842550    41550        0    16         actor_tagging.o:(.data)
+80842550    41550        0    16         arwing_teamfaces.o:(.data)
+80842550    41550        0    16         audio_ub_fix.o:(.data)
+80842550    41550        1    16         audio_voices.o:(.data)
+80842550    41550        1     1                 gVoiceLanguage
+80842560    41560        0    16         audio_volume.o:(.data)
+80842560    41560        0    16         background.o:(.data)
+80842560    41560        0    16         boss_killer.o:(.data)
+80842560    41560        0    16         boss_tagging.o:(.data)
+80842560    41560        0    16         camera.o:(.data)
+80842560    41560        0    16         controller_detection_bypass.o:(.data)
+80842560    41560      2bc    16         cutscene_record.o:(.data)
+80842560    41560       34     1                 gCarrierCutsceneRecord
+80842594    41594       34     1                 gGrangaCutsceneRecord
+808425c8    415c8        c     1                 gMeCrusherCutsceneRecord
+808425d4    415d4       38     1                 gMacbethCutsceneRecord
+8084260c    4160c        c     1                 gSyRobotCutsceneRecord
+80842618    41618       64     1                 gAndrossRobotKillCutscene1
+8084267c    4167c       50     1                 gAndrossRobotKillCutscene2
+808426cc    416cc       4c     1                 gWarpzoneCsRecord
+80842718    41718       94     1                 gEndingCsRecord
+808427ac    417ac       30     1                 gA6GorgonCsRecord
+808427dc    417dc       40     1                 gSolarIntroCsRecord
+80842820    41820        0    16         debug.o:(.data)
+80842820    41820        0    16         debug_title_skip.o:(.data)
+80842820    41820       d8    16         display_patches.o:(.data)
+80842820    41820       48     1                 SETUPDL_63_POINT
+80842868    41868       48     1                 SETUPDL_36_POINT
+808428b0    418b0       48     1                 SETUPDL_67_POINT
+80842900    41900        0    16         dpad_control.o:(.data)
+80842900    41900        0    16         effect_tagging.o:(.data)
+80842900    41900        0    16         ending.o:(.data)
+80842900    41900        0    16         game_fixes.o:(.data)
+80842900    41900        0    16         gfx_patches.o:(.data)
+80842900    41900     a340    16         ground.o:(.data)
+80842900    41900     1210     1                 D_SO_6001C50_copy
+80843b10    42b10     1210     1                 D_SO_6004500_copy
+80844d20    43d20     16a0     1                 aSoLava2DL_copy
+808463c0    453c0     16a0     1                 aSoLava1DL_copy
+80847a60    46a60     1210     1                 D_ZO_6009ED0_copy
+80848c70    47c70     1210     1                 D_ZO_600C780_copy
+80849e80    48e80     16a0     1                 aZoWater1DL_copy
+8084b520    4a520     16a0     1                 aZoWater2DL_copy
+8084cbc0    4bbc0       60     1                 Background_DrawGround.trainingGroundVtx_FIX
+8084cc20    4bc20       20     1                 Background_DrawGround.trainingGroundDL_FIX
+8084cc40    4bc40        0    16         hud_patches.o:(.data)
+8084cc40    4bc40        0    16         invert_y_axis.o:(.data)
+8084cc40    4bc40        0    16         item_tagging.o:(.data)
+8084cc40    4bc40       58    16         levelselect.o:(.data)
+8084cc40    4bc40       54     1                 sPlanetArray
+8084cc94    4bc94        4     1                 Map_LevelSelect.timer
+8084cca0    4bca0        0    16         lod_patches.o:(.data)
+8084cca0    4bca0        0    16         map_tagging.o:(.data)
+8084cca0    4bca0        0    16         memory.o:(.data)
+8084cca0    4bca0      168    16         meteor_fix.o:(.data)
+8084cca0    4bca0       f0     1                 sMeteorGroup1
+8084cd90    4bd90       78     1                 sMeteorGroup2
+8084ce10    4be10       48    16         object_tagging.o:(.data)
+8084ce10    4be10       48     1                 SETUPDL_62_POINT
+8084ce60    4be60        0    16         option.o:(.data)
+8084ce60    4be60        0    16         print.o:(.data)
+8084ce60    4be60        0    16         required_patches.o:(.data)
+8084ce60    4be60        0    16         scenery_tagging.o:(.data)
+8084ce60    4be60        0    16         sfxjukebox.o:(.data)
+8084ce60    4be60        0    16         shadow_tagging.o:(.data)
+8084ce60    4be60        0    16         shooting_star.o:(.data)
+8084ce60    4be60        0    16         skeleton_tagging.o:(.data)
+8084ce60    4be60        0    16         spawner.o:(.data)
+8084ce60    4be60       a8    16         starfield.o:(.data)
+8084ce60    4be60        4     1                 gCurrentScreenWidth
+8084ce64    4be64        4     1                 gCurrentScreenHeight
+8084ce68    4be68       30     1                 Background_DrawStarfield.starSetupDL
+8084ce98    4be98       30     1                 Background_DrawPartialStarfield.starSetupDL
+8084cec8    4bec8       40     1                 starVerts
+8084cf10    4bf10        0    16         title.o:(.data)
+8084cf10    4bf10        0    16         uv_scroll.o:(.data)
+8084cf10    4bf10        0    16         versus.o:(.data)
+8084cf10    4bf10        0    16         widescreen_actors.o:(.data)
+8084cf10 8084cf10   5f06d0    16 .bss
+8084cf10 8084cf10        0    16         Game_InitViewport.o:(.bss)
+8084cf10 8084cf10        c    16         actor_cutscene_tagging.o:(.bss)
+8084cf10 8084cf10        4     1                 ActorCutscene_Draw.D_800CA210
+8084cf14 8084cf14        4     1                 ActorCutscene_Draw.D_800CA214
+8084cf18 8084cf18        4     1                 ActorCutscene_Draw.D_800CA218
+8084cf20 8084cf20        0    16         actor_event_tagging.o:(.bss)
+8084cf20 8084cf20        2    16         actor_tagging.o:(.bss)
+8084cf20 8084cf20        2     1                 next_actor_transform
+8084cf30 8084cf30        0    16         arwing_teamfaces.o:(.bss)
+8084cf30 8084cf30        8    16         audio_ub_fix.o:(.bss)
+8084cf30 8084cf30        8     1                 sNewAudioTasks_recomp
+8084cf40 8084cf40        0    16         audio_voices.o:(.bss)
+8084cf40 8084cf40        0    16         audio_volume.o:(.bss)
+8084cf40 8084cf40        0    16         background.o:(.bss)
+8084cf40 8084cf40        5    16         boss_killer.o:(.bss)
+8084cf40 8084cf40        4     1                 KillBoss.bossMercyTimer
+8084cf44 8084cf44        1     1                 KillBoss.eventState
+8084cf50 8084cf50        0    16         boss_tagging.o:(.bss)
+8084cf50 8084cf50       30    16         camera.o:(.bss)
+8084cf50 8084cf50        c     1                 should_interpolate_perspective.prev_eye
+8084cf5c 8084cf5c        c     1                 should_interpolate_perspective.prev_at
+8084cf68 8084cf68        4     1                 should_interpolate_perspective.eye_velocity.0
+8084cf6c 8084cf6c        4     1                 should_interpolate_perspective.eye_velocity.1
+8084cf70 8084cf70        4     1                 should_interpolate_perspective.eye_velocity.2
+8084cf74 8084cf74        4     1                 should_interpolate_perspective.at_velocity.0
+8084cf78 8084cf78        4     1                 should_interpolate_perspective.at_velocity.1
+8084cf7c 8084cf7c        4     1                 should_interpolate_perspective.at_velocity.2
+8084cf80 8084cf80        0    16         controller_detection_bypass.o:(.bss)
+8084cf80 8084cf80        8    16         cutscene_record.o:(.bss)
+8084cf80 8084cf80        4     1                 gWarpzoneCsFrameCount
+8084cf84 8084cf84        4     1                 gA6GorgonCsFrameCount
+8084cf90 8084cf90        0    16         debug.o:(.bss)
+8084cf90 8084cf90        0    16         debug_title_skip.o:(.bss)
+8084cf90 8084cf90       18    16         display_patches.o:(.bss)
+8084cf90 8084cf90        4     1                 gCamera1Skipped
+8084cf94 8084cf94        4     1                 gCamera2Skipped
+8084cf98 8084cf98        4     1                 gCamera3Skipped
+8084cf9c 8084cf9c        4     1                 gCamera4Skipped
+8084cfa0 8084cfa0        4     1                 Display_Update.prevPlayState
+8084cfa4 8084cfa4        4     1                 Display_Update.camSkipTimes
+8084cfb0 8084cfb0        4    16         dpad_control.o:(.bss)
+8084cfb0 8084cfb0        4     1                 Option_Input_Sound_X.holdTimer
+8084cfc0 8084cfc0        0    16         effect_tagging.o:(.bss)
+8084cfc0 8084cfc0        4    16         ending.o:(.bss)
+8084cfc0 8084cfc0        4     1                 gEndingBorderFrame
+8084cfd0 8084cfd0       40    16         game_fixes.o:(.bss)
+8084cfd0 8084cfd0       40     1                 gActorTeamArwing_recomp
+8084d010 8084d010   55a0a8    16         gfx_patches.o:(.bss)
+8084d010 8084d010        4     1                 gExGfxPool
+8084d018 8084d018   55a0a0     1                 gExGfxPools
+80da70c0 80da70c0        0    16         ground.o:(.bss)
+80da70c0 80da70c0        8    16         hud_patches.o:(.bss)
+80da70c0 80da70c0        4     1                 D_radio_80178748
+80da70c4 80da70c4        4     1                 sRadioCheckMouthFlag
+80da70d0 80da70d0        1    16         invert_y_axis.o:(.bss)
+80da70d0 80da70d0        1     1                 func_tank_80045678.D_800C9F3C
+80da70e0 80da70e0        0    16         item_tagging.o:(.bss)
+80da70e0 80da70e0       10    16         levelselect.o:(.bss)
+80da70e0 80da70e0        4     1                 gBackToMap
+80da70e4 80da70e4        4     1                 Map_LevelSelect.mission
+80da70e8 80da70e8        4     1                 Map_LevelSelect.difficulty
+80da70ec 80da70ec        4     1                 Map_LevelSelect.startOption
+80da70f0 80da70f0        0    16         lod_patches.o:(.bss)
+80da70f0 80da70f0        0    16         map_tagging.o:(.bss)
+80da70f0 80da70f0    1ff00    16         memory.o:(.bss)
+80da70f0 80da70f0    1ff00     1                 roccoMemoryBuffer
+80dc6ff0 80dc6ff0        0    16         meteor_fix.o:(.bss)
+80dc6ff0 80dc6ff0        0    16         object_tagging.o:(.bss)
+80dc6ff0 80dc6ff0        0    16         option.o:(.bss)
+80dc6ff0 80dc6ff0        0    16         print.o:(.bss)
+80dc6ff0 80dc6ff0    70800    16         required_patches.o:(.bss)
+80dc6ff0 80dc6ff0    70800     1                 gCompressionBuffer
+80e377f0 80e377f0        0    16         scenery_tagging.o:(.bss)
+80e377f0 80e377f0        0    16         sfxjukebox.o:(.bss)
+80e377f0 80e377f0        0    16         shadow_tagging.o:(.bss)
+80e377f0 80e377f0        0    16         shooting_star.o:(.bss)
+80e377f0 80e377f0        0    16         skeleton_tagging.o:(.bss)
+80e377f0 80e377f0       18    16         spawner.o:(.bss)
+80e377f0 80e377f0        4     1                 Spawner.sFreeze
+80e377f4 80e377f4        4     1                 Spawner.sHoldTimer
+80e377f8 80e377f8        4     1                 sContPress
+80e377fc 80e377fc        4     1                 sContHold
+80e37800 80e37800        4     1                 sObjId
+80e37804 80e37804        4     1                 sObjType
+80e37810 80e37810     5dc0    16         starfield.o:(.bss)
+80e37810 80e37810     2ee0     1                 gStarPrevX
+80e3a6f0 80e3a6f0     2ee0     1                 gStarPrevY
+80e3d5d0 80e3d5d0        8    16         title.o:(.bss)
+80e3d5d0 80e3d5d0        4     1                 sSkipInterpolation
+80e3d5d4 80e3d5d4        4     1                 Title_Draw.camSkipTimes
+80e3d5e0 80e3d5e0        0    16         uv_scroll.o:(.bss)
+80e3d5e0 80e3d5e0        0    16         versus.o:(.bss)
+80e3d5e0 80e3d5e0        0    16         widescreen_actors.o:(.bss)
+80e3d5e0 80e3d5e0        0     1 
+       0        0     b100     4 .symtab
+       0        0     b100     4         <internal>:(.symtab)
+       0        0     9bf3     1 .strtab
+       0        0     9bf3     1         <internal>:(.strtab)
+       0        0       a4     1 .shstrtab
+       0        0       a4     1         <internal>:(.shstrtab)
+80e3d5e0 80e3d5e0        0     1 __start = 0x80000000
+80e3d5e0 80e3d5e0        0     1 recomp_puts = 0x8F000000
+80e3d5e0 80e3d5e0        0     1 recomp_exit = 0x8F000004
+80e3d5e0 80e3d5e0        0     1 osViSwapBuffer_recomp = 0x8F0000B4
+80e3d5e0 80e3d5e0        0     1 osRecvMesg_recomp = 0x8F000010
+80e3d5e0 80e3d5e0        0     1 osSendMesg_recomp = 0x8F000014
+80e3d5e0 80e3d5e0        0     1 recomp_get_gyro_deltas = 0x8F000018
+80e3d5e0 80e3d5e0        0     1 recomp_get_target_aspect_ratio = 0x8F00001C
+80e3d5e0 80e3d5e0        0     1 recomp_get_pending_warp = 0x8F000020
+80e3d5e0 80e3d5e0        0     1 recomp_powf = 0x8F000024
+80e3d5e0 80e3d5e0        0     1 recomp_get_target_framerate = 0x8F000028
+80e3d5e0 80e3d5e0        0     1 recomp_get_targeting_mode = 0x8F00002C
+80e3d5e0 80e3d5e0        0     1 recomp_get_bgm_volume = 0x8F000030
+80e3d5e0 80e3d5e0        0     1 recomp_get_low_health_beeps_enabled = 0x8F000034
+80e3d5e0 80e3d5e0        0     1 __sinf_recomp = 0x8F000038
+80e3d5e0 80e3d5e0        0     1 __cosf_recomp = 0x8F00003C
+80e3d5e0 80e3d5e0        0     1 sqrtf_recomp = 0x8F0000B8
+80e3d5e0 80e3d5e0        0     1 osCreateMesgQueue_recomp = 0x8F000048
+80e3d5e0 80e3d5e0        0     1 recomp_set_current_frame_poll_id = 0x8F00004C
+80e3d5e0 80e3d5e0        0     1 recomp_time_us = 0x8F000050
+80e3d5e0 80e3d5e0        0     1 recomp_measure_latency = 0x8F000054
+80e3d5e0 80e3d5e0        0     1 osViGetCurrentFramebuffer_recomp = 0x8F000058
+80e3d5e0 80e3d5e0        0     1 bzero_recomp = 0x8F00005C
+80e3d5e0 80e3d5e0        0     1 osFlashWriteArray_recomp = 0x8F000060
+80e3d5e0 80e3d5e0        0     1 osFlashWriteBuffer_recomp = 0x8F000064
+80e3d5e0 80e3d5e0        0     1 osWritebackDCache_recomp = 0x8F000068
+80e3d5e0 80e3d5e0        0     1 recomp_get_pending_set_time = 0x8F00006C
+80e3d5e0 80e3d5e0        0     1 osContStartReadData_recomp = 0x8F000070
+80e3d5e0 80e3d5e0        0     1 osContGetReadData_recomp = 0x8F000074
+80e3d5e0 80e3d5e0        0     1 osContStartQuery_recomp = 0x8F000078
+80e3d5e0 80e3d5e0        0     1 osContGetQuery_recomp = 0x8F00007C
+80e3d5e0 80e3d5e0        0     1 recomp_get_mouse_deltas = 0x8F000080
+80e3d5e0 80e3d5e0        0     1 osGetTime_recomp = 0x8F000088
+80e3d5e0 80e3d5e0        0     1 recomp_load_overlays = 0x8F000090
+80e3d5e0 80e3d5e0        0     1 osInvalICache_recomp = 0x8F000094
+80e3d5e0 80e3d5e0        0     1 recomp_get_camera_inputs = 0x8F00009C
+80e3d5e0 80e3d5e0        0     1 recomp_set_right_analog_suppressed = 0x8F0000A0
+80e3d5e0 80e3d5e0        0     1 recomp_get_inverted_axes = 0x8F0000A4
+80e3d5e0 80e3d5e0        0     1 recomp_high_precision_fb_enabled = 0x8F0000A8
+80e3d5e0 80e3d5e0        0     1 recomp_get_resolution_scale = 0x8F0000AC
+80e3d5e0 80e3d5e0        0     1 recomp_get_window_resolution = 0x8F1000B0
+80e3d5e0 80e3d5e0        0     1 recomp_get_analog_inverted_axes = 0x8F0000B0
+80e3d5e0 80e3d5e0        0     1 osEepromRead_recomp = 0x8F000040
+80e3d5e0 80e3d5e0        0     1 osEepromWrite_recomp = 0x8F000044
+80e3d5e0 80e3d5e0        0     1 osWritebackDCacheAll_recomp = 0x8F0000BC
+80e3d5e0 80e3d5e0        0     1 sShotViewPos = 0x8015f950
+80e3d5e0 80e3d5e0        0     1 D_800C9BD8 = 0x800C9BD8
+80e3d5e0 80e3d5e0        0     1 D_800C9C00 = 0x800C9C00
+80e3d5e0 80e3d5e0        0     1 D_800C9C04 = 0x800C9C04
+80e3d5e0 80e3d5e0        0     1 D_800C9C08 = 0x800C9C08
+80e3d5e0 80e3d5e0        0     1 aOrbDL = 0x01024ac0
+80e3d5e0 80e3d5e0        0     1 aStarDL = 0x0101c2e0
+80e3d5e0 80e3d5e0        0     1 aBallDL = 0x102A8A0
+80e3d5e0 80e3d5e0        0     1 osEepromProbe_recomp = 0x8F0000C0
+80e3d5e0 80e3d5e0        0     1 osCartRomInit_recomp = 0x8F0000C4
+80e3d5e0 80e3d5e0        0     1 osEPiStartDma_recomp = 0x8F0000C8
+80e3d5e0 80e3d5e0        0     1 osAiSetFrequency_recomp = 0x8F0000CC
+80e3d5e0 80e3d5e0        0     1 osWritebackDCacheAll_recomp = 0x8F0000D0
+80e3d5e0 80e3d5e0        0     1 recomp_get_sfx_volume = 0x8F0000D4
+80e3d5e0 80e3d5e0        0     1 recomp_get_voice_volume = 0x8F0000D8
+80e3d5e0 80e3d5e0        0     1 osCreateThread_recomp = 0x8F0000DC
+80e3d5e0 80e3d5e0        0     1 osStartThread_recomp = 0x8F0000E0
+80e3d5e0 80e3d5e0        0     1 recomp_get_film_grain_enabled = 0x8F0000E4
+80e3d5e0 80e3d5e0        0     1 recomp_get_invert_y_axis_mode = 0x8F0000E8
+80e3d5e0 80e3d5e0        0     1 recomp_get_radio_comm_box_mode = 0x8F0000EC
+       0        0    27ac0     4 .rel.recomp_patch
+       0        0      370     4         Game_InitViewport.o:(.rel.recomp_patch)
+     370      370     1590     4         actor_cutscene_tagging.o:(.rel.recomp_patch)
+    1900     1900       50     4         actor_event_tagging.o:(.rel.recomp_patch)
+    1950     1950      c68     4         actor_tagging.o:(.rel.recomp_patch)
+    25b8     25b8      dc0     4         arwing_teamfaces.o:(.rel.recomp_patch)
+    3378     3378      268     4         audio_ub_fix.o:(.rel.recomp_patch)
+    35e0     35e0      218     4         audio_volume.o:(.rel.recomp_patch)
+    37f8     37f8     2058     4         background.o:(.rel.recomp_patch)
+    5850     5850     1878     4         boss_tagging.o:(.rel.recomp_patch)
+    70c8     70c8      f98     4         cutscene_record.o:(.rel.recomp_patch)
+    8060     8060     26c0     4         display_patches.o:(.rel.recomp_patch)
+    a720     a720      328     4         dpad_control.o:(.rel.recomp_patch)
+    aa48     aa48     12d0     4         effect_tagging.o:(.rel.recomp_patch)
+    bd18     bd18      6c0     4         ending.o:(.rel.recomp_patch)
+    c3d8     c3d8     2e70     4         game_fixes.o:(.rel.recomp_patch)
+    f248     f248      bb8     4         gfx_patches.o:(.rel.recomp_patch)
+    fe00     fe00     3598     4         ground.o:(.rel.recomp_patch)
+   13398    13398     3840     4         hud_patches.o:(.rel.recomp_patch)
+   16bd8    16bd8     1518     4         invert_y_axis.o:(.rel.recomp_patch)
+   180f0    180f0      1f8     4         item_tagging.o:(.rel.recomp_patch)
+   182e8    182e8      240     4         levelselect.o:(.rel.recomp_patch)
+   18528    18528     1ed8     4         map_tagging.o:(.rel.recomp_patch)
+   1a400    1a400       20     4         memory.o:(.rel.recomp_patch)
+   1a420    1a420      758     4         meteor_fix.o:(.rel.recomp_patch)
+   1ab78    1ab78     1dd0     4         object_tagging.o:(.rel.recomp_patch)
+   1c948    1c948      728     4         option.o:(.rel.recomp_patch)
+   1d070    1d070      270     4         required_patches.o:(.rel.recomp_patch)
+   1d2e0    1d2e0      368     4         scenery_tagging.o:(.rel.recomp_patch)
+   1d648    1d648      550     4         shadow_tagging.o:(.rel.recomp_patch)
+   1db98    1db98     19d0     4         shooting_star.o:(.rel.recomp_patch)
+   1f568    1f568      7a0     4         skeleton_tagging.o:(.rel.recomp_patch)
+   1fd08    1fd08      8c0     4         starfield.o:(.rel.recomp_patch)
+   205c8    205c8     21c8     4         title.o:(.rel.recomp_patch)
+   22790    22790      8b8     4         versus.o:(.rel.recomp_patch)
+   23048    23048     4a78     4         widescreen_actors.o:(.rel.recomp_patch)
+       0        0     1f10     4 .rel.rodata
+       0        0       20     4         Game_InitViewport.o:(.rel.rodata)
+      20       20      1a0     4         actor_cutscene_tagging.o:(.rel.rodata)
+     1c0      1c0       58     4         audio_volume.o:(.rel.rodata)
+     218      218      478     4         background.o:(.rel.rodata)
+     690      690       88     4         boss_killer.o:(.rel.rodata)
+     718      718       50     4         boss_tagging.o:(.rel.rodata)
+     768      768      160     4         cutscene_record.o:(.rel.rodata)
+     8c8      8c8       68     4         effect_tagging.o:(.rel.rodata)
+     930      930       38     4         ending.o:(.rel.rodata)
+     968      968      3d0     4         game_fixes.o:(.rel.rodata)
+     d38      d38      1f8     4         ground.o:(.rel.rodata)
+     f30      f30      768     4         hud_patches.o:(.rel.rodata)
+    1698     1698       c0     4         levelselect.o:(.rel.rodata)
+    1758     1758       98     4         map_tagging.o:(.rel.rodata)
+    17f0     17f0       70     4         object_tagging.o:(.rel.rodata)
+    1860     1860       20     4         required_patches.o:(.rel.rodata)
+    1880     1880      1c0     4         scenery_tagging.o:(.rel.rodata)
+    1a40     1a40      118     4         shadow_tagging.o:(.rel.rodata)
+    1b58     1b58      130     4         shooting_star.o:(.rel.rodata)
+    1c88     1c88       80     4         spawner.o:(.rel.rodata)
+    1d08     1d08       98     4         title.o:(.rel.rodata)
+    1da0     1da0       20     4         uv_scroll.o:(.rel.rodata)
+    1dc0     1dc0       68     4         versus.o:(.rel.rodata)
+    1e28     1e28       e8     4         widescreen_actors.o:(.rel.rodata)
+       0        0     2790     4 .rel.text
+       0        0      470     4         boss_killer.o:(.rel.text)
+     470      470      290     4         camera.o:(.rel.text)
+     700      700       20     4         cutscene_record.o:(.rel.text)
+     720      720       d0     4         ending.o:(.rel.text)
+     7f0      7f0      240     4         ground.o:(.rel.text)
+     a30      a30      2a0     4         levelselect.o:(.rel.text)
+     cd0      cd0       30     4         map_tagging.o:(.rel.text)
+     d00      d00       40     4         meteor_fix.o:(.rel.text)
+     d40      d40        8     4         print.o:(.rel.text)
+     d48      d48       e8     4         scenery_tagging.o:(.rel.text)
+     e30      e30      8e8     4         skeleton_tagging.o:(.rel.text)
+    1718     1718     1048     4         spawner.o:(.rel.text)
+    2760     2760       10     4         starfield.o:(.rel.text)
+    2770     2770       20     4         uv_scroll.o:(.rel.text)
+       0        0     1988     4 .rel.data
+       0        0     1988     4         ground.o:(.rel.data)
+       0        0       18     4 .rel.recomp_export
+       0        0       18     4         print.o:(.rel.recomp_export)
