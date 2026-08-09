@@ -33,7 +33,7 @@ index 8be5b05..8b9b91a 100644
      struct RenderWindow {
          Display* display;
 diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
-index 51f96c4..44e5815 100644
+index 51f96c4..45d84d5 100644
 --- a/plume_vulkan.cpp
 +++ b/plume_vulkan.cpp
 @@ -24,6 +24,13 @@
@@ -234,39 +234,53 @@ index 51f96c4..44e5815 100644
          createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
          createInfo.preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
          createInfo.compositeAlpha = pickedAlphaFlag;
-@@ -2335,8 +2489,30 @@ namespace plume {
+@@ -2335,8 +2489,44 @@ namespace plume {
          createInfo.oldSwapchain = vk;
  
          VkResult res = vkCreateSwapchainKHR(commandQueue->device->vk, &createInfo, nullptr, &vk);
 -        if (res != VK_SUCCESS) {
-+        if (res == VK_ERROR_SURFACE_LOST_KHR) {
-+            fprintf(stderr, "vkCreateSwapchainKHR failed with VK_ERROR_SURFACE_LOST_KHR, recreating surface.\n");
-+            PLUME_ANDROID_LOG(ANDROID_LOG_ERROR, "vkCreateSwapchainKHR failed: SURFACE_LOST, recreating surface width=%u height=%u presentMode=%d alpha=0x%X", width, height, int(createInfo.presentMode), uint32_t(createInfo.compositeAlpha));
++        if ((res == VK_ERROR_SURFACE_LOST_KHR) || (res == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR)) {
++            fprintf(stderr, "vkCreateSwapchainKHR failed (0x%X), recreating surface.\n", res);
++            PLUME_ANDROID_LOG(ANDROID_LOG_ERROR, "vkCreateSwapchainKHR failed: res=0x%X, recreating surface width=%u height=%u presentMode=%d alpha=0x%X", res, width, height, int(createInfo.presentMode), uint32_t(createInfo.compositeAlpha));
++            vk = VK_NULL_HANDLE;
 +            if (!recreateSurface()) {
++                releaseSwapChain();
++                releaseImageViews();
++                textures.clear();
 +                return false;
 +            }
 +
 +            // Re-run the size query since the window surface may have changed.
 +            getWindowSize(width, height);
 +            if ((width == 0) || (height == 0)) {
++                releaseSwapChain();
++                releaseImageViews();
++                textures.clear();
 +                return false;
 +            }
 +
 +            createInfo.surface = surface;
++            createInfo.oldSwapchain = VK_NULL_HANDLE;
 +            res = vkCreateSwapchainKHR(commandQueue->device->vk, &createInfo, nullptr, &vk);
 +            if (res != VK_SUCCESS) {
 +                fprintf(stderr, "vkCreateSwapchainKHR retry failed with error code 0x%X.\n", res);
 +                PLUME_ANDROID_LOG(ANDROID_LOG_ERROR, "vkCreateSwapchainKHR retry failed: res=0x%X width=%u height=%u presentMode=%d alpha=0x%X", res, width, height, int(createInfo.presentMode), uint32_t(createInfo.compositeAlpha));
++                releaseSwapChain();
++                releaseImageViews();
++                textures.clear();
 +                return false;
 +            }
 +        }
 +        else if (res != VK_SUCCESS) {
              fprintf(stderr, "vkCreateSwapchainKHR failed with error code 0x%X.\n", res);
 +            PLUME_ANDROID_LOG(ANDROID_LOG_ERROR, "vkCreateSwapchainKHR failed: res=0x%X width=%u height=%u presentMode=%d alpha=0x%X", res, width, height, int(createInfo.presentMode), uint32_t(createInfo.compositeAlpha));
++            releaseSwapChain();
++            releaseImageViews();
++            textures.clear();
              return false;
          }
  
-@@ -2431,6 +2607,10 @@ namespace plume {
+@@ -2431,6 +2621,10 @@ namespace plume {
      }
  
      uint32_t VulkanSwapChain::getRefreshRate() const {
@@ -277,7 +291,7 @@ index 51f96c4..44e5815 100644
          VkRefreshCycleDurationGOOGLE refreshCycle = {};
          VkResult res = vkGetRefreshCycleDurationGOOGLE(commandQueue->device->vk, vk, &refreshCycle);
          if (res != VK_SUCCESS) {
-@@ -2439,6 +2619,7 @@ namespace plume {
+@@ -2439,6 +2633,7 @@ namespace plume {
          }
  
          return std::lround(1000000000.0 / refreshCycle.refreshDuration);
@@ -285,7 +299,7 @@ index 51f96c4..44e5815 100644
      }
  
      void VulkanSwapChain::getWindowSize(uint32_t &dstWidth, uint32_t &dstHeight) const {
-@@ -4115,7 +4296,13 @@ namespace plume {
+@@ -4115,7 +4310,13 @@ namespace plume {
          capabilities.bufferDeviceAddress = bufferDeviceAddressSupported;
          capabilities.samplerMirrorClampToEdge = supportedOptionalExtensions.find(VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_EXTENSION_NAME) != supportedOptionalExtensions.end();
          capabilities.presentWait = presentWaitSupported;
