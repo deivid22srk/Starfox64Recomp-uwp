@@ -44,7 +44,8 @@ jobs:
 
       - name: Clone SDL2
         run: |
-          git clone --branch release-2.26.5 --depth 1 https://github.com/libsdl-org/SDL.git lib/SDL2
+          git clone --branch release-2.30.3 --depth 1 https://github.com/libsdl-org/SDL.git lib/SDL2
+          sed -i 's/ALooper_pollAll/ALooper_pollOnce/g' lib/SDL2/src/sensor/android/SDL_androidsensor.c
 
       - name: Apply submodule patches
         run: |
