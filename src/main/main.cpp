@@ -12,7 +12,7 @@
 
 #include "ultramodern/ultra64.h"
 #include "ultramodern/ultramodern.hpp"
-#ifndef _UWP
+#if !defined(_UWP) && !defined(__ANDROID__)
 #define SDL_MAIN_HANDLED
 #endif
 #ifdef _WIN32

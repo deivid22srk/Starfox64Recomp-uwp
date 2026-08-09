@@ -186,6 +186,8 @@ endif()
 # Main executable
 if(ANDROID)
     add_library(Starfox64Recompiled SHARED)
+    # SDLActivity loads the app entry point from libmain.so (getMainSharedObject).
+    set_target_properties(Starfox64Recompiled PROPERTIES OUTPUT_NAME "main")
 elseif(NOT UWP_BUILD)
     add_executable(Starfox64Recompiled)
 else()
