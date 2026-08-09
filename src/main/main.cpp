@@ -575,15 +575,16 @@ void reorder_texture_pack(recomp::mods::ModContext&) {
 
 #define REGISTER_FUNC(name) recomp::overlays::register_base_export(#name, name)
 
+#ifdef __ANDROID__
+extern "C" void android_loadTurnipDriver();
+#endif
+
 int main(int argc, char** argv) {
     (void) argc;
     (void) argv;
 
 #ifdef __ANDROID__
-    {
-        extern "C" void android_loadTurnipDriver();
-        android_loadTurnipDriver();
-    }
+    android_loadTurnipDriver();
 #endif
 
     recomp::Version project_version{};
