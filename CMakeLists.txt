@@ -46,7 +46,6 @@ if (ANDROID)
     FetchContent_Declare(
         freetype
         URL https://download.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.xz
-        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     )
     set(FT_DISABLE_BZIP2 TRUE CACHE BOOL "" FORCE)
     set(FT_DISABLE_HARFBUZZ TRUE CACHE BOOL "" FORCE)
