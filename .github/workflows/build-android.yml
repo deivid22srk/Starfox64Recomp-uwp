@@ -14,8 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: false
           fetch-depth: 0
+
+      - name: Init required submodules
+        run: |
+          git submodule update --init --depth 1 \
+            lib/N64ModernRuntime \
+            lib/rt64 \
+            lib/RmlUi \
+            lib/lunasvg \
+            lib/sse2neon \
+            lib/freetype-windows-binaries
+          git submodule update --init --depth 1 --recursive \
+            lib/rt64
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
