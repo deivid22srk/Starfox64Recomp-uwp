@@ -1,0 +1,16 @@
+diff --git a/librecomp/src/recomp.cpp b/librecomp/src/recomp.cpp
+index 7296a4d..a021b2f 100644
+--- a/librecomp/src/recomp.cpp
++++ b/librecomp/src/recomp.cpp
+@@ -457,7 +457,11 @@ extern "C" void do_break(uint32_t vram) {
+     exit(EXIT_FAILURE);
+ }
+ 
++#if defined(_WIN32)
+ extern "C" __declspec(dllimport) void uwp_ProcessEvents();
++#else
++extern "C" void uwp_ProcessEvents();
++#endif
+ 
+ std::optional<std::u8string> current_game = std::nullopt;
+ std::atomic<GameStatus> game_status = GameStatus::None;
