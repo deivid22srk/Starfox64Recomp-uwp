@@ -581,7 +581,7 @@ int main(int argc, char** argv) {
 
 #ifdef __ANDROID__
     {
-        extern void android_loadTurnipDriver();
+        extern "C" void android_loadTurnipDriver();
         android_loadTurnipDriver();
     }
 #endif
