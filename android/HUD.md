@@ -2,6 +2,11 @@
 
 A dedicated touch HUD is enabled automatically on Android. It is designed around the Arwing flight loop rather than presenting a generic virtual controller.
 
+## Visibility
+
+- The HUD appears only while the game is running (after pressing **Start Game**); it stays hidden in the launcher and menus.
+- While a physical gamepad is connected, the HUD is hidden automatically and the game is driven by the gamepad. As soon as the gamepad is disconnected, the touch HUD reappears.
+
 ## Layout
 
 - **Flight stick**: the lower-left ring drives pitch and yaw. Dragging away from the center emits the existing `W/A/S/D` keyboard bindings, so controller mappings and native input handling remain unchanged.
@@ -12,7 +17,7 @@ A dedicated touch HUD is enabled automatically on Android. It is designed around
 - **CAMERA / ROB**: context actions near the top-right.
 - **PAUSE**: compact control in the upper-right corner.
 
-Buttons use a restrained cockpit palette, press feedback, and labels for one-handed play. The HUD scales from the shorter display dimension and is restricted to landscape orientation.
+Buttons use a restrained cockpit palette and press feedback for one-handed play. The HUD scales from the shorter display dimension and is restricted to landscape orientation. The previous decorative "ARWING // FLIGHT DECK" readout was removed so the HUD reads purely as game controls.
 
 ## Input mapping
 

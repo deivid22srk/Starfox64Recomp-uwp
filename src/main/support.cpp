@@ -12,6 +12,7 @@ extern "C" __declspec(dllimport) void uwp_PickAFile(char* path);
 #include <SDL_system.h>
 #include <mutex>
 #include <condition_variable>
+#include "ultramodern/ultramodern.hpp"
 
 namespace {
 std::mutex rom_pick_mutex;
@@ -47,6 +48,14 @@ Java_com_sf64recomp_app_MainActivity_nativeOnRomSelected(JNIEnv* env, jclass, js
         rom_pick_done = true;
     }
     rom_pick_cv.notify_all();
+}
+
+// Queried by the Android HUD overlay (MainActivity.hudPollTask): reports whether
+// the recompiled game has been started, so the touch controls only appear during
+// gameplay and disappear in the launcher/menus.
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_sf64recomp_app_MainActivity_nativeIsGameRunning(JNIEnv*, jclass) {
+    return ultramodern::is_game_started() ? JNI_TRUE : JNI_FALSE;
 }
 
 // Launches the system file picker through MainActivity and blocks until a file

@@ -6,13 +6,18 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.InputDevice;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import org.libsdl.app.SDLActivity;
+import org.libsdl.app.SDLControllerManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,7 +28,24 @@ import java.util.zip.ZipInputStream;
 public class MainActivity extends SDLActivity {
     private static final int REQUEST_OPEN_ROM = 1001;
     private static final int REQUEST_OPEN_DRIVER = 1002;
+    private static final long HUD_POLL_INTERVAL_MS = 500L;
     private StarfoxHudView starfoxHud;
+    private boolean gameRunning = false;
+    private boolean gamepadConnected = false;
+    private boolean pollerStarted = false;
+    private final Handler hudPoller = new Handler(Looper.getMainLooper());
+    private final Runnable hudPollTask = new Runnable() {
+        @Override
+        public void run() {
+            if (!pollerStarted) {
+                return;
+            }
+            gameRunning = nativeIsGameRunning();
+            gamepadConnected = isPhysicalGamepadConnected();
+            refreshHudVisibility();
+            hudPoller.postDelayed(this, HUD_POLL_INTERVAL_MS);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +53,8 @@ public class MainActivity extends SDLActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         installStarfoxHud();
+        registerGamepadListener();
+        startHudPoller();
         enableImmersiveMode();
     }
 
@@ -49,6 +73,88 @@ public class MainActivity extends SDLActivity {
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
         mLayout.addView(starfoxHud, params);
         starfoxHud.bringToFront();
+    }
+
+    private void registerGamepadListener() {
+        getWindow().getDecorView().getRootView().getViewTreeObserver()
+            .addOnWindowAttachListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                    getWindowManager().registerInputDeviceListener(inputDeviceListener, hudPoller);
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    getWindowManager().unregisterInputDeviceListener(inputDeviceListener);
+                }
+            });
+    }
+
+    private final WindowManager.InputDeviceListener inputDeviceListener = new WindowManager.InputDeviceListener() {
+        @Override
+        public void onInputDeviceAdded(int deviceId) {
+            gamepadConnected = isPhysicalGamepadConnected();
+            refreshHudVisibility();
+        }
+
+        @Override
+        public void onInputDeviceRemoved(int deviceId) {
+            gamepadConnected = isPhysicalGamepadConnected();
+            refreshHudVisibility();
+        }
+
+        @Override
+        public void onInputDeviceChanged(int deviceId) {
+            gamepadConnected = isPhysicalGamepadConnected();
+            refreshHudVisibility();
+        }
+    };
+
+    private boolean isPhysicalGamepadConnected() {
+        for (int deviceId : InputDevice.getDeviceIds()) {
+            try {
+                if (SDLControllerManager.isDeviceSDLJoystick(deviceId)) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return false;
+    }
+
+    private void startHudPoller() {
+        if (pollerStarted) {
+            return;
+        }
+        pollerStarted = true;
+        hudPoller.post(hudPollTask);
+    }
+
+    private void stopHudPoller() {
+        pollerStarted = false;
+        hudPoller.removeCallbacks(hudPollTask);
+    }
+
+    private void refreshHudVisibility() {
+        if (starfoxHud == null) {
+            return;
+        }
+        boolean show = gameRunning && !gamepadConnected;
+        if (starfoxHud.isHudVisible() != show) {
+            starfoxHud.setHudVisible(show);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopHudPoller();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startHudPoller();
     }
 
     @Override
@@ -241,4 +347,5 @@ public class MainActivity extends SDLActivity {
 
     private static native void nativeOnRomSelected(String path);
     private static native void nativeOnDriverSelected(String path);
+    private static native boolean nativeIsGameRunning();
 }

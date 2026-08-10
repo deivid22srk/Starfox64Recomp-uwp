@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -90,23 +89,9 @@ public final class StarfoxHudView extends View {
         stickX = stickCx;
         stickY = stickCy;
 
-        drawTopReadout(canvas, w, h);
         drawFlightStick(canvas, stickCx, stickCy, stickRadius);
         drawCombatCluster(canvas, w, h, buttonRadius);
         drawPause(canvas, w, h);
-    }
-
-    private void drawTopReadout(Canvas canvas, float w, float h) {
-        float left = dp(18);
-        float top = dp(16);
-        paint.setColor(Color.argb(150, 9, 25, 35));
-        canvas.drawRoundRect(new RectF(left, top, left + dp(208), top + dp(38)), dp(7), dp(7), paint);
-        paint.setColor(Color.rgb(111, 218, 230));
-        paint.setTextSize(dp(12));
-        canvas.drawText("ARWING // FLIGHT DECK", left + dp(12), top + dp(16), paint);
-        paint.setColor(Color.argb(210, 214, 238, 231));
-        paint.setTextSize(dp(10));
-        canvas.drawText("TOUCH HUD", left + dp(12), top + dp(30), paint);
     }
 
     private void drawFlightStick(Canvas canvas, float cx, float cy, float radius) {
@@ -344,6 +329,7 @@ public final class StarfoxHudView extends View {
     public void setHudVisible(boolean visible) {
         this.visible = visible;
         if (!visible) releaseAll();
+        setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
         invalidate();
     }
 
