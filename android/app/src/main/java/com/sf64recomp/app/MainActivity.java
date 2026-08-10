@@ -3,6 +3,7 @@ package com.sf64recomp.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import org.libsdl.app.SDLActivity;
@@ -74,7 +74,7 @@ public class MainActivity extends SDLActivity {
         starfoxHud.bringToFront();
     }
 
-    private final WindowManager.InputDeviceListener inputDeviceListener = new WindowManager.InputDeviceListener() {
+    private final InputManager.InputDeviceListener inputDeviceListener = new InputManager.InputDeviceListener() {
         @Override
         public void onInputDeviceAdded(int deviceId) {
             gamepadConnected = isPhysicalGamepadConnected();
@@ -111,9 +111,9 @@ public class MainActivity extends SDLActivity {
             return;
         }
         pollerStarted = true;
-        try {
-            getWindowManager().registerInputDeviceListener(inputDeviceListener, hudPoller);
-        } catch (Exception ignored) {
+        InputManager inputManager = (InputManager) getSystemService(INPUT_SERVICE);
+        if (inputManager != null) {
+            inputManager.registerInputDeviceListener(inputDeviceListener, hudPoller);
         }
         hudPoller.post(hudPollTask);
     }
@@ -121,9 +121,9 @@ public class MainActivity extends SDLActivity {
     private void stopHudPoller() {
         pollerStarted = false;
         hudPoller.removeCallbacks(hudPollTask);
-        try {
-            getWindowManager().unregisterInputDeviceListener(inputDeviceListener);
-        } catch (Exception ignored) {
+        InputManager inputManager = (InputManager) getSystemService(INPUT_SERVICE);
+        if (inputManager != null) {
+            inputManager.unregisterInputDeviceListener(inputDeviceListener);
         }
     }
 
