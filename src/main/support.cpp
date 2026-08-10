@@ -58,6 +58,20 @@ Java_com_sf64recomp_app_MainActivity_nativeIsGameRunning(JNIEnv*, jclass) {
     return ultramodern::is_game_started() ? JNI_TRUE : JNI_FALSE;
 }
 
+void zelda64::android_notify_game_started() {
+    JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+    jobject activity = (jobject) SDL_AndroidGetActivity();
+    if (env == nullptr || activity == nullptr) {
+        return;
+    }
+    jclass cls = env->GetObjectClass(activity);
+    jmethodID notify = env->GetStaticMethodID(cls, "onNativeGameStarted", "()V");
+    if (notify != nullptr) {
+        env->CallStaticVoidMethod(cls, notify);
+    }
+    env->DeleteLocalRef(cls);
+}
+
 // Launches the system file picker through MainActivity and blocks until a file
 // is chosen or the dialog is cancelled.
 void android_open_rom_picker() {

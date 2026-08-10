@@ -18,6 +18,7 @@ namespace zelda64 {
 #ifdef __ANDROID__
     void android_open_driver_picker();
     bool android_driver_pick_result(std::string& out_path);
+    void android_notify_game_started();
 #endif
 
 // Apple specific methods that usually require Objective-C. Implemented in support_apple.mm.

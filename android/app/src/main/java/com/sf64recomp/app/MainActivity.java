@@ -340,4 +340,17 @@ public class MainActivity extends SDLActivity {
     private static native void nativeOnRomSelected(String path);
     private static native void nativeOnDriverSelected(String path);
     private static native boolean nativeIsGameRunning();
+
+    public static void onNativeGameStarted() {
+        if (mSingleton instanceof MainActivity) {
+            final MainActivity activity = (MainActivity) mSingleton;
+            activity.hudPoller.post(new Runnable() {
+                @Override
+                public void run() {
+                    activity.gameRunning = true;
+                    activity.refreshHudVisibility();
+                }
+            });
+        }
+    }
 }

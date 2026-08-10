@@ -326,6 +326,11 @@ void recomp::handle_events() {
 
     if (!started && ultramodern::is_game_started()) {
         started = true;
+#ifdef __ANDROID__
+        // Notify the Android HUD immediately when Start Game transitions into
+        // gameplay; the Java poll remains only as a lifecycle-safe fallback.
+        zelda64::android_notify_game_started();
+#endif
         recompui::process_game_started();
     }
 }
