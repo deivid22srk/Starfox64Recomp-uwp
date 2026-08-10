@@ -1,0 +1,59 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 17debe8..217f32b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -101,6 +101,11 @@ set(ANDROID_ABI arm64-v8a)
+ set (DXC_COMMON_OPTS "-I${PROJECT_SOURCE_DIR}/src")
+ set (DXC_DXIL_OPTS "-Wno-ignored-attributes")
+ set (DXC_SPV_OPTS "-spirv" "-fspv-target-env=vulkan1.0" "-fvk-use-dx-layout")
++if (ANDROID)
++    # Android system Vulkan drivers do not universally support dual-source blending.
++    # Compile raster shaders with a single color output and use source alpha instead.
++    list(APPEND DXC_SPV_OPTS "-DNO_DUAL_SOURCE_BLEND")
++endif()
+ set (DXC_LB_OPTS "${DXC_COMMON_OPTS}" "-D" "LIBRARY" "-T" "lib_6_3")
+ set (DXC_PS_OPTS "${DXC_COMMON_OPTS}" "-E" "PSMain" "-T ps_6_3")
+ set (DXC_VS_OPTS "${DXC_COMMON_OPTS}" "-E" "VSMain" "-T vs_6_3" "-fvk-invert-y")
+
+diff --git a/src/render/rt64_raster_shader.cpp b/src/render/rt64_raster_shader.cpp
+index 721a01e..75c2c67 100644
+--- a/src/render/rt64_raster_shader.cpp
++++ b/src/render/rt64_raster_shader.cpp
+@@ -333,8 +333,14 @@ namespace RT64 {
+         RenderBlendDesc &targetBlend = pipelineDesc.renderTargetBlend[0];
+         if (c.alphaBlend) {
+             targetBlend.blendEnabled = true;
++#if defined(__ANDROID__)
++            // Android system Vulkan drivers are not required to support dual-source blending.
++            targetBlend.srcBlend = RenderBlend::SRC_ALPHA;
++            targetBlend.dstBlend = RenderBlend::INV_SRC_ALPHA;
++#else
+             targetBlend.srcBlend = RenderBlend::SRC1_ALPHA;
+             targetBlend.dstBlend = RenderBlend::INV_SRC1_ALPHA;
++#endif
+             targetBlend.blendOp = RenderBlendOperation::ADD;
+         }
+
+diff --git a/src/shaders/RasterPS.hlsl b/src/shaders/RasterPS.hlsl
+index d817f7e..8e60485 100644
+--- a/src/shaders/RasterPS.hlsl
++++ b/src/shaders/RasterPS.hlsl
+@@ -285,7 +285,9 @@ void PSMain(
+     , bool isFrontFace : SV_IsFrontFace
+ #endif
+     , [[vk::location(0)]] [[vk::index(0)]] out float4 pixelColor : SV_TARGET0
++#if !defined(NO_DUAL_SOURCE_BLEND)
+     , [[vk::location(0)]] [[vk::index(1)]] out float4 pixelAlpha : SV_TARGET1
++#endif
+ )
+ {
+ #if !defined(DYNAMIC_RENDER_PARAMS)
+@@ -302,6 +304,8 @@ void PSMain(
+     }
+ 
+     pixelColor = resultColor;
++#if !defined(NO_DUAL_SOURCE_BLEND)
+     pixelAlpha = resultAlpha;
++#endif
+ }
+ #endif

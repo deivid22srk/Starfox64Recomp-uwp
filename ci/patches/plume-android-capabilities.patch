@@ -1,0 +1,27 @@
+diff --git a/plume_render_interface_types.h b/plume_render_interface_types.h
+index 8be5b05..05175c7 100644
+--- a/plume_render_interface_types.h
++++ b/plume_render_interface_types.h
+@@ -1745,6 +1745,9 @@ namespace plume {
+         // Geometry shaders.
+         bool geometryShader = false;
+ 
++        // Dual-source blending.
++        bool dualSrcBlend = false;
++
+         // Raytracing.
+         bool raytracing = false;
+         bool raytracingStateUpdate = false;
+
+diff --git a/plume_vulkan.cpp b/plume_vulkan.cpp
+index 51f96c4..fb38fb9 100644
+--- a/plume_vulkan.cpp
++++ b/plume_vulkan.cpp
+@@ -4105,6 +4105,7 @@ namespace plume {
+ 
+         // Fill capabilities.
+         capabilities.geometryShader = deviceFeatures.features.geometryShader;
++        capabilities.dualSrcBlend = deviceFeatures.features.dualSrcBlend;
+         capabilities.raytracing = rayTracingSupported;
+         capabilities.raytracingStateUpdate = false;
+         capabilities.sampleLocations = (sampleLocationProperties.sampleLocationSampleCounts != 0);

@@ -55,7 +55,10 @@ jobs:
         run: |
           git -C lib/N64ModernRuntime apply $GITHUB_WORKSPACE/ci/patches/n64modernruntime.patch
           git -C lib/rt64 apply $GITHUB_WORKSPACE/ci/patches/rt64.patch
+          git -C lib/rt64 apply $GITHUB_WORKSPACE/ci/patches/rt64-android-no-dual-source.patch
           git -C lib/rt64/src/contrib/plume apply $GITHUB_WORKSPACE/ci/patches/plume.patch
+          git -C lib/rt64/src/contrib/plume apply $GITHUB_WORKSPACE/ci/patches/plume-android-capabilities.patch
+
 
       - name: Configure CMake
         run: |
