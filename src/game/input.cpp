@@ -6,6 +6,7 @@
 #include "recomp_input.h"
 #include "zelda_config.h"
 #include "recomp_ui.h"
+#include "zelda_support.h"
 #include "SDL.h"
 #include "promptfont.h"
 #include "GamepadMotion.hpp"
