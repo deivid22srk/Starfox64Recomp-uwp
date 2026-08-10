@@ -2,7 +2,9 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ uwp-compat ]
+    branches:
+      - uwp-compat
+      - 'android/**'
   pull_request:
     branches: [ uwp-compat ]
   workflow_dispatch:

@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
+import android.widget.RelativeLayout;
 
 import org.libsdl.app.SDLActivity;
 
@@ -21,13 +23,32 @@ import java.util.zip.ZipInputStream;
 public class MainActivity extends SDLActivity {
     private static final int REQUEST_OPEN_ROM = 1001;
     private static final int REQUEST_OPEN_DRIVER = 1002;
+    private StarfoxHudView starfoxHud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         extractAssets();
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        installStarfoxHud();
         enableImmersiveMode();
+    }
+
+    private void installStarfoxHud() {
+        if (mLayout == null || mSurface == null) {
+            return;
+        }
+        starfoxHud = new StarfoxHudView(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        params.addRule(RelativeLayout.ALIGN_PARENT_START);
+        params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        mLayout.addView(starfoxHud, params);
+        starfoxHud.bringToFront();
     }
 
     @Override
