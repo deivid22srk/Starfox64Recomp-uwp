@@ -53,7 +53,6 @@ public class MainActivity extends SDLActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         installStarfoxHud();
-        registerGamepadListener();
         startHudPoller();
         enableImmersiveMode();
     }
@@ -73,21 +72,6 @@ public class MainActivity extends SDLActivity {
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
         mLayout.addView(starfoxHud, params);
         starfoxHud.bringToFront();
-    }
-
-    private void registerGamepadListener() {
-        getWindow().getDecorView().getRootView().getViewTreeObserver()
-            .addOnWindowAttachListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View v) {
-                    getWindowManager().registerInputDeviceListener(inputDeviceListener, hudPoller);
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View v) {
-                    getWindowManager().unregisterInputDeviceListener(inputDeviceListener);
-                }
-            });
     }
 
     private final WindowManager.InputDeviceListener inputDeviceListener = new WindowManager.InputDeviceListener() {
@@ -127,12 +111,20 @@ public class MainActivity extends SDLActivity {
             return;
         }
         pollerStarted = true;
+        try {
+            getWindowManager().registerInputDeviceListener(inputDeviceListener, hudPoller);
+        } catch (Exception ignored) {
+        }
         hudPoller.post(hudPollTask);
     }
 
     private void stopHudPoller() {
         pollerStarted = false;
         hudPoller.removeCallbacks(hudPollTask);
+        try {
+            getWindowManager().unregisterInputDeviceListener(inputDeviceListener);
+        } catch (Exception ignored) {
+        }
     }
 
     private void refreshHudVisibility() {
