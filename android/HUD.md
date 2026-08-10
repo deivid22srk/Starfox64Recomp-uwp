@@ -17,7 +17,7 @@ A dedicated touch HUD is enabled automatically on Android. It is designed around
 - **CAMERA / ROB**: context actions near the top-right.
 - **PAUSE**: compact control in the upper-right corner.
 
-Buttons use a restrained cockpit palette and press feedback for one-handed play. The HUD scales from the shorter display dimension and is restricted to landscape orientation. The previous decorative "ARWING // FLIGHT DECK" readout was removed so the HUD reads purely as game controls.
+The HUD uses a restrained cockpit palette, thin outlines, compact labels, consistent spacing, and press feedback for one-handed play. Controls are grouped into a small top action strip, a bottom flight/combat row, and one flight stick. The HUD scales from the shorter display dimension and is restricted to landscape orientation; it avoids decorative panels and keeps the game view unobstructed.
 
 ## Input mapping
 

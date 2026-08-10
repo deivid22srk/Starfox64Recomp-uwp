@@ -46,6 +46,12 @@ public final class StarfoxHudView extends View {
     private static final int KEYCODE_DPAD_UP = 19;
     private static final int KEYCODE_DPAD_DOWN = 20;
 
+    private static final int COLOR_CYAN = Color.rgb(154, 226, 224);
+    private static final int COLOR_TEXT = Color.rgb(221, 240, 235);
+    private static final int COLOR_ORANGE = Color.rgb(247, 178, 91);
+    private static final int COLOR_PANEL = Color.argb(112, 4, 15, 21);
+    private static final int COLOR_ACTIVE = Color.argb(220, 154, 226, 224);
+
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Map<Integer, Integer> pointerActions = new HashMap<>();
@@ -82,10 +88,10 @@ public final class StarfoxHudView extends View {
         float w = getWidth();
         float h = getHeight();
         float unit = Math.min(w, h);
-        float stickRadius = Math.max(dp(64), unit * 0.145f);
-        float stickCx = unit * 0.19f;
-        float stickCy = h - unit * 0.22f;
-        float buttonRadius = Math.max(dp(30), unit * 0.055f);
+        float stickRadius = Math.max(dp(58), unit * 0.13f);
+        float stickCx = dp(26) + stickRadius;
+        float stickCy = h - dp(28) - stickRadius;
+        float buttonRadius = Math.max(dp(27), unit * 0.052f);
         stickX = stickCx;
         stickY = stickCy;
 
@@ -95,82 +101,86 @@ public final class StarfoxHudView extends View {
     }
 
     private void drawFlightStick(Canvas canvas, float cx, float cy, float radius) {
-        paint.setColor(Color.argb(100, 9, 26, 36));
-        canvas.drawCircle(cx, cy, radius + dp(13), paint);
-        linePaint.setColor(Color.argb(190, 96, 205, 216));
-        linePaint.setStrokeWidth(dp(2));
+        linePaint.setColor(Color.argb(170, 154, 226, 224));
+        linePaint.setStrokeWidth(dp(1.5f));
         canvas.drawCircle(cx, cy, radius, linePaint);
-        canvas.drawCircle(cx, cy, radius * 0.56f, linePaint);
+        canvas.drawCircle(cx, cy, radius * 0.48f, linePaint);
         canvas.drawLine(cx - radius, cy, cx + radius, cy, linePaint);
         canvas.drawLine(cx, cy - radius, cx, cy + radius, linePaint);
 
         float knobX = cx;
         float knobY = cy;
-        if (heldKeys.contains(KEY_LEFT)) knobX -= radius * 0.46f;
-        if (heldKeys.contains(KEY_RIGHT)) knobX += radius * 0.46f;
-        if (heldKeys.contains(KEY_UP)) knobY -= radius * 0.46f;
-        if (heldKeys.contains(KEY_DOWN)) knobY += radius * 0.46f;
-        paint.setColor(Color.argb(225, 111, 218, 230));
-        canvas.drawCircle(knobX, knobY, radius * 0.18f, paint);
-        paint.setColor(Color.argb(225, 214, 238, 231));
-        paint.setTextSize(dp(10));
+        if (heldKeys.contains(KEY_LEFT)) knobX -= radius * 0.42f;
+        if (heldKeys.contains(KEY_RIGHT)) knobX += radius * 0.42f;
+        if (heldKeys.contains(KEY_UP)) knobY -= radius * 0.42f;
+        if (heldKeys.contains(KEY_DOWN)) knobY += radius * 0.42f;
+        paint.setColor(COLOR_CYAN);
+        canvas.drawCircle(knobX, knobY, radius * 0.13f, paint);
+        paint.setColor(COLOR_TEXT);
+        paint.setTextSize(dp(9));
         paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("FLIGHT", cx, cy + radius + dp(23), paint);
+        canvas.drawText("FLIGHT", cx, cy + radius + dp(16), paint);
         paint.setTextAlign(Paint.Align.LEFT);
     }
 
     private void drawCombatCluster(Canvas canvas, float w, float h, float r) {
-        float right = w - dp(22);
-        float y = h - Math.max(dp(140), h * 0.23f);
-        float laserX = right - r * 1.25f;
-        float bombX = right;
+        float right = w - dp(24);
+        float y = h - dp(38) - r * 2.3f;
+        float gap = dp(8);
+        float laserX = right - r * 2 - gap;
+        float bombX = right - r;
         drawActionCircle(canvas, laserX, y, r, ACTION_LASER, "A", "LASER");
-        drawActionCircle(canvas, bombX, y + r * 1.35f, r, ACTION_BOMB, "B", "BOMB");
+        drawActionCircle(canvas, bombX, y, r, ACTION_BOMB, "B", "BOMB");
 
-        float utilityY = h - dp(43);
-        drawActionPill(canvas, w * 0.60f, utilityY, dp(76), dp(34), ACTION_TURBO, "TURBO");
-        drawActionPill(canvas, w * 0.60f + dp(84), utilityY, dp(76), dp(34), ACTION_BRAKE, "BRAKE");
+        float utilityY = h - dp(38);
+        float utilityWidth = dp(72);
+        float utilityLeft = w - dp(24) - utilityWidth * 2 - gap;
+        drawActionPill(canvas, utilityLeft, utilityY, utilityWidth, dp(28), ACTION_TURBO, "TURBO");
+        drawActionPill(canvas, utilityLeft + utilityWidth + gap, utilityY, utilityWidth, dp(28), ACTION_BRAKE, "BRAKE");
 
-        drawActionPill(canvas, w * 0.61f, dp(66), dp(82), dp(32), ACTION_ROLL_LEFT, "ROLL L");
-        drawActionPill(canvas, w * 0.61f + dp(90), dp(66), dp(82), dp(32), ACTION_ROLL_RIGHT, "ROLL R");
-        drawActionPill(canvas, w * 0.61f + dp(180), dp(66), dp(82), dp(32), ACTION_CAMERA, "CAMERA");
-        drawActionPill(canvas, w * 0.61f + dp(270), dp(66), dp(72), dp(32), ACTION_ROB, "ROB");
+        float top = dp(18);
+        float width = dp(68);
+        float start = w - dp(24) - width * 4 - gap * 3;
+        drawActionPill(canvas, start, top, width, dp(27), ACTION_ROLL_LEFT, "ROLL L");
+        drawActionPill(canvas, start + width + gap, top, width, dp(27), ACTION_ROLL_RIGHT, "ROLL R");
+        drawActionPill(canvas, start + (width + gap) * 2, top, width, dp(27), ACTION_CAMERA, "CAMERA");
+        drawActionPill(canvas, start + (width + gap) * 3, top, width, dp(27), ACTION_ROB, "ROB");
     }
 
     private void drawActionCircle(Canvas canvas, float cx, float cy, float radius, int action, String glyph, String label) {
         boolean pressed = pressedActions.contains(action);
-        paint.setColor(pressed ? Color.argb(225, 243, 164, 72) : Color.argb(185, 16, 42, 52));
+        paint.setColor(pressed ? COLOR_ACTIVE : COLOR_PANEL);
         canvas.drawCircle(cx, cy, radius, paint);
-        linePaint.setColor(pressed ? Color.rgb(255, 224, 151) : Color.rgb(243, 164, 72));
-        linePaint.setStrokeWidth(dp(3));
+        linePaint.setColor(pressed ? COLOR_TEXT : COLOR_ORANGE);
+        linePaint.setStrokeWidth(dp(2));
         canvas.drawCircle(cx, cy, radius, linePaint);
-        paint.setColor(pressed ? Color.rgb(30, 45, 48) : Color.rgb(245, 214, 155));
+        paint.setColor(pressed ? Color.rgb(20, 42, 43) : COLOR_TEXT);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(dp(22));
-        canvas.drawText(glyph, cx, cy + dp(7), paint);
-        paint.setTextSize(dp(9));
-        canvas.drawText(label, cx, cy + radius + dp(16), paint);
+        paint.setTextSize(dp(19));
+        canvas.drawText(glyph, cx, cy + dp(6), paint);
+        paint.setTextSize(dp(8));
+        canvas.drawText(label, cx, cy + radius + dp(13), paint);
         paint.setTextAlign(Paint.Align.LEFT);
     }
 
     private void drawActionPill(Canvas canvas, float left, float top, float width, float height, int action, String label) {
         boolean pressed = pressedActions.contains(action);
-        paint.setColor(pressed ? Color.argb(225, 83, 171, 180) : Color.argb(150, 10, 31, 41));
+        paint.setColor(pressed ? COLOR_ACTIVE : COLOR_PANEL);
         canvas.drawRoundRect(new RectF(left, top, left + width, top + height), height / 2, height / 2, paint);
-        linePaint.setColor(pressed ? Color.rgb(214, 238, 231) : Color.argb(190, 111, 218, 230));
-        linePaint.setStrokeWidth(dp(1.5f));
+        linePaint.setColor(pressed ? COLOR_TEXT : Color.argb(180, 154, 226, 224));
+        linePaint.setStrokeWidth(dp(1));
         canvas.drawRoundRect(new RectF(left, top, left + width, top + height), height / 2, height / 2, linePaint);
-        paint.setColor(Color.rgb(214, 238, 231));
+        paint.setColor(pressed ? Color.rgb(20, 42, 43) : COLOR_TEXT);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(dp(9));
+        paint.setTextSize(dp(8));
         canvas.drawText(label, left + width / 2, top + height / 2 + dp(3), paint);
         paint.setTextAlign(Paint.Align.LEFT);
     }
 
     private void drawPause(Canvas canvas, float w, float h) {
         float left = w - dp(76);
-        float top = dp(15);
-        drawActionPill(canvas, left, top, dp(58), dp(32), ACTION_PAUSE, "PAUSE");
+        float top = dp(52);
+        drawActionPill(canvas, left, top, dp(52), dp(27), ACTION_PAUSE, "PAUSE");
     }
 
     @Override
@@ -220,22 +230,30 @@ public final class StarfoxHudView extends View {
         float w = getWidth();
         float h = getHeight();
         float unit = Math.min(w, h);
-        float stickRadius = Math.max(dp(64), unit * 0.145f) + dp(18);
+        float stickRadius = Math.max(dp(58), unit * 0.13f) + dp(18);
         if (Math.hypot(x - stickX, y - stickY) <= stickRadius) {
             return ACTION_STICK;
         }
-        float buttonRadius = Math.max(dp(30), unit * 0.055f) + dp(8);
-        float right = w - dp(22);
-        float combatY = h - Math.max(dp(140), h * 0.23f);
-        if (Math.hypot(x - (right - buttonRadius * 1.25f), y - combatY) <= buttonRadius) return ACTION_LASER;
-        if (Math.hypot(x - right, y - (combatY + buttonRadius * 1.35f)) <= buttonRadius) return ACTION_BOMB;
-        if (inPill(x, y, w * 0.60f, h - dp(43), dp(76), dp(34))) return ACTION_TURBO;
-        if (inPill(x, y, w * 0.60f + dp(84), h - dp(43), dp(76), dp(34))) return ACTION_BRAKE;
-        if (inPill(x, y, w * 0.61f, dp(66), dp(82), dp(32))) return ACTION_ROLL_LEFT;
-        if (inPill(x, y, w * 0.61f + dp(90), dp(66), dp(82), dp(32))) return ACTION_ROLL_RIGHT;
-        if (inPill(x, y, w * 0.61f + dp(180), dp(66), dp(82), dp(32))) return ACTION_CAMERA;
-        if (inPill(x, y, w * 0.61f + dp(270), dp(66), dp(72), dp(32))) return ACTION_ROB;
-        if (inPill(x, y, w - dp(76), dp(15), dp(58), dp(32))) return ACTION_PAUSE;
+        float buttonRadius = Math.max(dp(27), unit * 0.052f) + dp(8);
+        float right = w - dp(24);
+        float combatY = h - dp(38) - buttonRadius * 2.3f;
+        float gap = dp(8);
+        if (Math.hypot(x - (right - buttonRadius * 2 - gap), y - combatY) <= buttonRadius) return ACTION_LASER;
+        if (Math.hypot(x - (right - buttonRadius), y - combatY) <= buttonRadius) return ACTION_BOMB;
+
+        float utilityWidth = dp(72);
+        float utilityLeft = w - dp(24) - utilityWidth * 2 - gap;
+        if (inPill(x, y, utilityLeft, h - dp(38), utilityWidth, dp(28))) return ACTION_TURBO;
+        if (inPill(x, y, utilityLeft + utilityWidth + gap, h - dp(38), utilityWidth, dp(28))) return ACTION_BRAKE;
+
+        float top = dp(18);
+        float width = dp(68);
+        float start = w - dp(24) - width * 4 - gap * 3;
+        if (inPill(x, y, start, top, width, dp(27))) return ACTION_ROLL_LEFT;
+        if (inPill(x, y, start + width + gap, top, width, dp(27))) return ACTION_ROLL_RIGHT;
+        if (inPill(x, y, start + (width + gap) * 2, top, width, dp(27))) return ACTION_CAMERA;
+        if (inPill(x, y, start + (width + gap) * 3, top, width, dp(27))) return ACTION_ROB;
+        if (inPill(x, y, w - dp(76), dp(52), dp(52), dp(27))) return ACTION_PAUSE;
         return ACTION_NONE;
     }
 
