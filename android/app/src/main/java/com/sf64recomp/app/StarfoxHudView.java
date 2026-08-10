@@ -40,6 +40,13 @@ public final class StarfoxHudView extends View {
     private static final int KEY_LEFT = KeyEvent.KEYCODE_A;
     private static final int KEY_RIGHT = KeyEvent.KEYCODE_D;
 
+    // D-pad keycodes are runtime constants on Android; declare the numeric
+    // values here so the HUD compiles against the plain JDK used by Gradle.
+    private static final int KEYCODE_DPAD_LEFT = 21;
+    private static final int KEYCODE_DPAD_RIGHT = 22;
+    private static final int KEYCODE_DPAD_UP = 19;
+    private static final int KEYCODE_DPAD_DOWN = 20;
+
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Map<Integer, Integer> pointerActions = new HashMap<>();
@@ -261,12 +268,12 @@ public final class StarfoxHudView extends View {
         switch (action) {
             case ACTION_LASER: sendKey(KeyEvent.KEYCODE_SPACE, true); break;
             case ACTION_BOMB: sendKey(KeyEvent.KEYCODE_SHIFT_LEFT, true); break;
-            case ACTION_TURBO: sendKey(KeyEvent.KEYCODE_LEFT, true); break;
-            case ACTION_BRAKE: sendKey(KeyEvent.KEYCODE_DOWN, true); break;
+            case ACTION_TURBO: sendKey(KEYCODE_DPAD_LEFT, true); break;
+            case ACTION_BRAKE: sendKey(KEYCODE_DPAD_DOWN, true); break;
             case ACTION_ROLL_LEFT: sendKey(KeyEvent.KEYCODE_Q, true); break;
             case ACTION_ROLL_RIGHT: sendKey(KeyEvent.KEYCODE_R, true); break;
-            case ACTION_CAMERA: sendKey(KeyEvent.KEYCODE_UP, true); break;
-            case ACTION_ROB: sendKey(KeyEvent.KEYCODE_RIGHT, true); break;
+            case ACTION_CAMERA: sendKey(KEYCODE_DPAD_UP, true); break;
+            case ACTION_ROB: sendKey(KEYCODE_DPAD_RIGHT, true); break;
             case ACTION_PAUSE: sendKey(KeyEvent.KEYCODE_ENTER, true); break;
             default: break;
         }
@@ -282,12 +289,12 @@ public final class StarfoxHudView extends View {
         switch (action) {
             case ACTION_LASER: sendKey(KeyEvent.KEYCODE_SPACE, false); break;
             case ACTION_BOMB: sendKey(KeyEvent.KEYCODE_SHIFT_LEFT, false); break;
-            case ACTION_TURBO: sendKey(KeyEvent.KEYCODE_LEFT, false); break;
-            case ACTION_BRAKE: sendKey(KeyEvent.KEYCODE_DOWN, false); break;
+            case ACTION_TURBO: sendKey(KEYCODE_DPAD_LEFT, false); break;
+            case ACTION_BRAKE: sendKey(KEYCODE_DPAD_DOWN, false); break;
             case ACTION_ROLL_LEFT: sendKey(KeyEvent.KEYCODE_Q, false); break;
             case ACTION_ROLL_RIGHT: sendKey(KeyEvent.KEYCODE_R, false); break;
-            case ACTION_CAMERA: sendKey(KeyEvent.KEYCODE_UP, false); break;
-            case ACTION_ROB: sendKey(KeyEvent.KEYCODE_RIGHT, false); break;
+            case ACTION_CAMERA: sendKey(KEYCODE_DPAD_UP, false); break;
+            case ACTION_ROB: sendKey(KEYCODE_DPAD_RIGHT, false); break;
             case ACTION_PAUSE: sendKey(KeyEvent.KEYCODE_ENTER, false); break;
             default: break;
         }
